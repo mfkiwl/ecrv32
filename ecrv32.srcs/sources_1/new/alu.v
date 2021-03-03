@@ -37,37 +37,37 @@ div_int divisor (
 
 always @(*) begin
 	if (divbusy) begin
-		divstart <= 1'b0;
+		divstart = 1'b0;
 	end else begin
 		case (aluop)
 			// I
-			`ALU_ADD:  begin aluout = val1 + val2; divstart <= 1'b0; end
-			`ALU_SUB:  begin aluout = val1 + (~val2 + 32'd1); divstart <= 1'b0; end
-			`ALU_SLL:  begin aluout = val1 << val2[4:0]; divstart <= 1'b0; end
-			`ALU_SLT:  begin aluout = $signed(val1) < $signed(val2) ? 32'd1 : 32'd0; divstart <= 1'b0; end
-			`ALU_SLTU: begin aluout = val1 < val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
-			`ALU_XOR:  begin aluout = val1 ^ val2; divstart <= 1'b0; end
-			`ALU_SRL:  begin aluout = val1 >> val2[4:0]; divstart <= 1'b0; end
-			`ALU_SRA:  begin aluout = $signed(val1) >>> val2[4:0]; divstart <= 1'b0; end
-			`ALU_OR:   begin aluout = val1 | val2; divstart <= 1'b0; end
-			`ALU_AND:  begin aluout = val1 & val2; divstart <= 1'b0; end
+			`ALU_ADD:  begin aluout <= val1 + val2; divstart <= 1'b0; end
+			`ALU_SUB:  begin aluout <= val1 + (~val2 + 32'd1); divstart <= 1'b0; end
+			`ALU_SLL:  begin aluout <= val1 << val2[4:0]; divstart <= 1'b0; end
+			`ALU_SLT:  begin aluout <= $signed(val1) < $signed(val2) ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_SLTU: begin aluout <= val1 < val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_XOR:  begin aluout <= val1 ^ val2; divstart <= 1'b0; end
+			`ALU_SRL:  begin aluout <= val1 >> val2[4:0]; divstart <= 1'b0; end
+			`ALU_SRA:  begin aluout <= $signed(val1) >>> val2[4:0]; divstart <= 1'b0; end
+			`ALU_OR:   begin aluout <= val1 | val2; divstart <= 1'b0; end
+			`ALU_AND:  begin aluout <= val1 & val2; divstart <= 1'b0; end
 	
 			// M
-			`ALU_MUL:  begin aluout = multiplier_result; divstart <= 1'b0; end
-			`ALU_DIV:  begin aluout = quotient; divstart <= 1'b1; end
-			`ALU_REM:  begin aluout = remainder; divstart <= 1'b1; end
+			`ALU_MUL:  begin aluout <= multiplier_result; divstart <= 1'b0; end
+			`ALU_DIV:  begin aluout <= quotient; divstart <= 1'b1; end
+			`ALU_REM:  begin aluout <= remainder; divstart <= 1'b1; end
 	
 			// BRANCH ALU
-			`ALU_EQ:   begin aluout = val1 == val2 ? 32'd1 : 32'd0; end
-			`ALU_NE:   begin aluout = val1 != val2 ? 32'd1 : 32'd0; end
-			`ALU_L:    begin aluout = $signed(val1) < $signed(val2) ? 32'd1 : 32'd0; end
-			`ALU_GE:   begin aluout = $signed(val1) >= $signed(val2) ? 32'd1 : 32'd0; end
-			`ALU_LU:   begin aluout = val1 < val2 ? 32'd1 : 32'd0; end
-			`ALU_GEU:  begin aluout = val1 >= val2 ? 32'd1 : 32'd0; end
+			`ALU_EQ:   begin aluout <= val1 == val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_NE:   begin aluout <= val1 != val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_L:    begin aluout <= $signed(val1) < $signed(val2) ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_GE:   begin aluout <= $signed(val1) >= $signed(val2) ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_LU:   begin aluout <= val1 < val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
+			`ALU_GEU:  begin aluout <= val1 >= val2 ? 32'd1 : 32'd0; divstart <= 1'b0; end
 	
 			// None
-			`ALU_NONE: begin aluout = 0; divstart <= 1'b0; end
-			default:   begin aluout = 0; divstart <= 1'b0; end
+			`ALU_NONE: begin aluout <= 0; divstart <= 1'b0; end
+			default:   begin aluout <= 0; divstart <= 1'b0; end
 		endcase
 	end
 end

@@ -39,18 +39,18 @@ logic [31:0] prev_Q;	// to roll back one when done
 logic [31:0] prev_R;
 logic [31:0] div_D;		// copy of divisor
 logic [31:0] div_Q;		// quotient
-logic div_state;		// divider state
+logic [1:0] div_state;	// divider state
 logic signflip;
 
 always_ff @(posedge clk) begin
 	if (reset) begin
-		busy <= 1'b0;
-		dbz <= 1'b0;
-		div_R <= 32'd0;
-		div_D <= 32'd0;
-		signflip <= 1'b0;
-		div_Q <= 32'd0;
-		div_state <= 1'b0;
+		busy = 1'b0;
+		dbz = 1'b0;
+		div_R = 32'd0;
+		div_D = 32'd0;
+		signflip = 1'b0;
+		div_Q = 32'd0;
+		div_state = 2'b00;
 	end else begin
 		if (start) begin
 			if (y[30:0] == 31'd0) begin // could be zero or minus zero
@@ -60,7 +60,7 @@ always_ff @(posedge clk) begin
 				div_D <= 32'd0;
 				signflip <= 1'b0;
 				div_Q <= 32'd0;
-				div_state <= 1'b0;
+				div_state <= 2'b00;
 			end else begin
 				busy <= 1'b1;
 				dbz <= 1'b0;
@@ -68,25 +68,26 @@ always_ff @(posedge clk) begin
 				div_D <= y&32'h80000000 ? ((y^32'hFFFFFFFF) + 32'd1)&32'h7FFFFFFF : y; // abs(y)
 				signflip <= (x[31]^y[31]);
 				div_Q <= 32'd0;
-				div_state <= 1'b0;
+				div_state <= 2'b01;
 			end
 		end else begin
 			case(div_state)
-				1'b0: begin
+				2'b01: begin
 					if((div_R&32'h80000000)) begin // Done dividing when remainder goes negative
-						div_state <= 1'b1;
+						div_state <= 2'b10;
 					end else begin
 						prev_R <= div_R;
-						div_R <= div_R + ((div_D^32'hFFFFFFFF)+1);
+						div_R <= div_R + ((div_D^32'hFFFFFFFF)+1); // same as div_R = div_R - div_D
 						prev_Q <= div_Q;
 						div_Q <= div_Q + 32'd1; // Increment quotient
 					end
 				end
-				1'b1: begin
+				2'b10: begin
 					// Final result has the sign of xor of A and B
 					q <= signflip ? ((prev_Q^32'hFFFFFFFF)+32'd1) : prev_Q;
 					r <= prev_R;
 					busy <= 1'b0;
+					div_state <= 2'b00;
 				end
 				default: begin
 				end

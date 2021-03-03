@@ -40,7 +40,7 @@ module ecrv32top(
 	output [0:0] ddr3_odt*/ );
 
 // Wires and registers
-wire cpuclock, videoclock, uartbase, clocklocked;
+wire cpuclock, videoclock, uartbase, rasterclock, clocklocked;
 wire [31:0] memaddress;
 wire [31:0] writeword;
 wire [31:0] mem_data;
@@ -81,6 +81,7 @@ CoreClockGen SystemClockGen(
 	.cpuclock(cpuclock),
 	.videoclock(videoclock),
 	.uartbase(uartbase),
+	.rasterclock(rasterclock),
 	.resetn(~reset),
 	.locked(clocklocked),
 	.clk_in1(CLK100MHZ) );
