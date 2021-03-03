@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ecrv32top_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="ecrv32top" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="1479200fs"></ZoomStartTime>
+      <ZoomEndTime time="1928001fs"></ZoomEndTime>
+      <Cursor1Time time="1720600fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="204"></NameColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="102" />
+   <wvobject fp_name="/ecrv32top/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/led" type="array">
+      <obj_property name="ElementShortName">led[3:0]</obj_property>
+      <obj_property name="ObjectShortName">led[3:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/CLK100MHZ" type="logic">
+      <obj_property name="ElementShortName">CLK100MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK100MHZ</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/clocklocked" type="logic">
+      <obj_property name="ElementShortName">clocklocked</obj_property>
+      <obj_property name="ObjectShortName">clocklocked</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/videoclock" type="logic">
+      <obj_property name="ElementShortName">videoclock</obj_property>
+      <obj_property name="ObjectShortName">videoclock</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider1613">
+      <obj_property name="label">UART</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/uartsend" type="logic">
+      <obj_property name="ElementShortName">uartsend</obj_property>
+      <obj_property name="ObjectShortName">uartsend</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/uartbyte" type="array">
+      <obj_property name="ElementShortName">uartbyte[7:0]</obj_property>
+      <obj_property name="ObjectShortName">uartbyte[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/uarttxbusy" type="logic">
+      <obj_property name="ElementShortName">uarttxbusy</obj_property>
+      <obj_property name="ObjectShortName">uarttxbusy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/fifore" type="logic">
+      <obj_property name="ElementShortName">fifore</obj_property>
+      <obj_property name="ObjectShortName">fifore</obj_property>
+      <obj_property name="CustomSignalColor">#008080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/fifoout" type="array">
+      <obj_property name="ElementShortName">fifoout[7:0]</obj_property>
+      <obj_property name="ObjectShortName">fifoout[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/fifovalid" type="logic">
+      <obj_property name="ElementShortName">fifovalid</obj_property>
+      <obj_property name="ObjectShortName">fifovalid</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/fifodatacount" type="array">
+      <obj_property name="ElementShortName">fifodatacount[10:0]</obj_property>
+      <obj_property name="ObjectShortName">fifodatacount[10:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider176">
+      <obj_property name="label">CPU</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#FF0000</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/clock" type="logic">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/cpustate" type="array">
+      <obj_property name="ElementShortName">cpustate[10:0]</obj_property>
+      <obj_property name="ObjectShortName">cpustate[10:0]</obj_property>
+      <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+      <obj_property name="CustomSignalColor">#800080</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/PC" type="array">
+      <obj_property name="ElementShortName">PC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">PC[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/nextPC" type="array">
+      <obj_property name="ElementShortName">nextPC[31:0]</obj_property>
+      <obj_property name="ObjectShortName">nextPC[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#FFD700</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/data" type="array">
+      <obj_property name="ElementShortName">data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/memaddress" type="array">
+      <obj_property name="ElementShortName">memaddress[31:0]</obj_property>
+      <obj_property name="ObjectShortName">memaddress[31:0]</obj_property>
+      <obj_property name="CustomSignalColor">#0000FF</obj_property>
+      <obj_property name="UseCustomSignalColor">true</obj_property>
+      <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/writeword" type="array">
+      <obj_property name="ElementShortName">writeword[31:0]</obj_property>
+      <obj_property name="ObjectShortName">writeword[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/mem_data" type="array">
+      <obj_property name="ElementShortName">mem_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_data[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/mem_writeena" type="array">
+      <obj_property name="ElementShortName">mem_writeena[3:0]</obj_property>
+      <obj_property name="ObjectShortName">mem_writeena[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/chipselect" type="logic">
+      <obj_property name="ElementShortName">chipselect</obj_property>
+      <obj_property name="ObjectShortName">chipselect</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/ICACHEADDR" type="array">
+      <obj_property name="ElementShortName">ICACHEADDR[26:0]</obj_property>
+      <obj_property name="ObjectShortName">ICACHEADDR[26:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/ICACHE" type="array">
+      <obj_property name="ElementShortName">ICACHE[0:17][15:0]</obj_property>
+      <obj_property name="ObjectShortName">ICACHE[0:17][15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/ICACHECOUNTER" type="array">
+      <obj_property name="ElementShortName">ICACHECOUNTER[4:0]</obj_property>
+      <obj_property name="ObjectShortName">ICACHECOUNTER[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/func3" type="array">
+      <obj_property name="ElementShortName">func3[2:0]</obj_property>
+      <obj_property name="ObjectShortName">func3[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/func7" type="array">
+      <obj_property name="ElementShortName">func7[6:0]</obj_property>
+      <obj_property name="ObjectShortName">func7[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/wren" type="logic">
+      <obj_property name="ElementShortName">wren</obj_property>
+      <obj_property name="ObjectShortName">wren</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluop" type="array">
+      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rval1" type="array">
+      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rval2" type="array">
+      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluout" type="array">
+      <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/imm" type="array">
+      <obj_property name="ElementShortName">imm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">imm[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/selectimmedasrval2" type="logic">
+      <obj_property name="ElementShortName">selectimmedasrval2</obj_property>
+      <obj_property name="ObjectShortName">selectimmedasrval2</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rval2selector" type="array">
+      <obj_property name="ElementShortName">rval2selector[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval2selector[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider477">
+      <obj_property name="label">REGISTERFILE</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="BkColor">#008080</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/clock" type="logic">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/rs1" type="array">
+      <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/rs2" type="array">
+      <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rd" type="array">
+      <obj_property name="ElementShortName">rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/wren" type="logic">
+      <obj_property name="ElementShortName">wren</obj_property>
+      <obj_property name="ObjectShortName">wren</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/datain" type="array">
+      <obj_property name="ElementShortName">datain[31:0]</obj_property>
+      <obj_property name="ObjectShortName">datain[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/regs/registers" type="array">
+      <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider102">
+      <obj_property name="label">DECODER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/clock" type="logic">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/instruction" type="array">
+      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/opcode" type="array">
+      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/aluop" type="array">
+      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rs1" type="array">
+      <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rs2" type="array">
+      <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rd" type="array">
+      <obj_property name="ElementShortName">rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/func3" type="array">
+      <obj_property name="ElementShortName">func3[2:0]</obj_property>
+      <obj_property name="ObjectShortName">func3[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/func7" type="array">
+      <obj_property name="ElementShortName">func7[6:0]</obj_property>
+      <obj_property name="ObjectShortName">func7[6:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/imm" type="array">
+      <obj_property name="ElementShortName">imm[31:0]</obj_property>
+      <obj_property name="ObjectShortName">imm[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/idecode/selectimmedasrval2" type="logic">
+      <obj_property name="ElementShortName">selectimmedasrval2</obj_property>
+      <obj_property name="ObjectShortName">selectimmedasrval2</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider224">
+      <obj_property name="label">ALU</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/aluout" type="array">
+      <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/val1" type="array">
+      <obj_property name="ElementShortName">val1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">val1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/val2" type="array">
+      <obj_property name="ElementShortName">val2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">val2[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/aluop" type="array">
+      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider145">
+      <obj_property name="label">multiplier</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider136">
+      <obj_property name="label">divider</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/start" type="logic">
+      <obj_property name="ElementShortName">start</obj_property>
+      <obj_property name="ObjectShortName">start</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/busy" type="logic">
+      <obj_property name="ElementShortName">busy</obj_property>
+      <obj_property name="ObjectShortName">busy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/dbz" type="logic">
+      <obj_property name="ElementShortName">dbz</obj_property>
+      <obj_property name="ObjectShortName">dbz</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/x" type="array">
+      <obj_property name="ElementShortName">x[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/y" type="array">
+      <obj_property name="ElementShortName">y[31:0]</obj_property>
+      <obj_property name="ObjectShortName">y[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/q" type="array">
+      <obj_property name="ElementShortName">q[31:0]</obj_property>
+      <obj_property name="ObjectShortName">q[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/r" type="array">
+      <obj_property name="ElementShortName">r[31:0]</obj_property>
+      <obj_property name="ObjectShortName">r[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/div_R" type="array">
+      <obj_property name="ElementShortName">div_R[31:0]</obj_property>
+      <obj_property name="ObjectShortName">div_R[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/div_D" type="array">
+      <obj_property name="ElementShortName">div_D[31:0]</obj_property>
+      <obj_property name="ObjectShortName">div_D[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/div_Q" type="array">
+      <obj_property name="ElementShortName">div_Q[31:0]</obj_property>
+      <obj_property name="ObjectShortName">div_Q[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/div_state" type="logic">
+      <obj_property name="ElementShortName">div_state</obj_property>
+      <obj_property name="ObjectShortName">div_state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/divisor/WIDTH" type="array">
+      <obj_property name="ElementShortName">WIDTH[31:0]</obj_property>
+      <obj_property name="ObjectShortName">WIDTH[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider144">
+      <obj_property name="label">remainder</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider104">
+      <obj_property name="label">VIDEO</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/reset" type="logic">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/vga_h_sync" type="logic">
+      <obj_property name="ElementShortName">vga_h_sync</obj_property>
+      <obj_property name="ObjectShortName">vga_h_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/vga_v_sync" type="logic">
+      <obj_property name="ElementShortName">vga_v_sync</obj_property>
+      <obj_property name="ObjectShortName">vga_v_sync</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/inDisplayArea" type="logic">
+      <obj_property name="ElementShortName">inDisplayArea</obj_property>
+      <obj_property name="ObjectShortName">inDisplayArea</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/pixelX" type="array">
+      <obj_property name="ElementShortName">pixelX[9:0]</obj_property>
+      <obj_property name="ObjectShortName">pixelX[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/pixelY" type="array">
+      <obj_property name="ElementShortName">pixelY[9:0]</obj_property>
+      <obj_property name="ObjectShortName">pixelY[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/videoreadaddress" type="array">
+      <obj_property name="ElementShortName">videoreadaddress[13:0]</obj_property>
+      <obj_property name="ObjectShortName">videoreadaddress[13:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vramdataout" type="array">
+      <obj_property name="ElementShortName">vramdataout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">vramdataout[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/cacheaddress" type="array">
+      <obj_property name="ElementShortName">cacheaddress[5:0]</obj_property>
+      <obj_property name="ObjectShortName">cacheaddress[5:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/cacherow" type="logic">
+      <obj_property name="ElementShortName">cacherow</obj_property>
+      <obj_property name="ObjectShortName">cacherow</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/scanlinecache" type="array">
+      <obj_property name="ElementShortName">scanlinecache[0:63][31:0]</obj_property>
+      <obj_property name="ObjectShortName">scanlinecache[0:63][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/videobyteselect" type="array">
+      <obj_property name="ElementShortName">videobyteselect[1:0]</obj_property>
+      <obj_property name="ObjectShortName">videobyteselect[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/CounterX" type="array">
+      <obj_property name="ElementShortName">CounterX[9:0]</obj_property>
+      <obj_property name="ObjectShortName">CounterX[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/CounterY" type="array">
+      <obj_property name="ElementShortName">CounterY[9:0]</obj_property>
+      <obj_property name="ObjectShortName">CounterY[9:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/vga_HS" type="logic">
+      <obj_property name="ElementShortName">vga_HS</obj_property>
+      <obj_property name="ObjectShortName">vga_HS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/vga_VS" type="logic">
+      <obj_property name="ElementShortName">vga_VS</obj_property>
+      <obj_property name="ObjectShortName">vga_VS</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/CounterXmaxed" type="logic">
+      <obj_property name="ElementShortName">CounterXmaxed</obj_property>
+      <obj_property name="ObjectShortName">CounterXmaxed</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/vgaout/CounterYmaxed" type="logic">
+      <obj_property name="ElementShortName">CounterYmaxed</obj_property>
+      <obj_property name="ObjectShortName">CounterYmaxed</obj_property>
+   </wvobject>
+</wave_config>
