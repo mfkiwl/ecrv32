@@ -52,7 +52,7 @@
 //`define CFSWSP		5'b11110
 //`define CSDSP		5'b11110
 
-module InstructionDecompression(
+module instructiondecompressor(
     input wire [15:0] instr_lowword,
     input wire [15:0] instr_highword,
     output reg is_compressed,

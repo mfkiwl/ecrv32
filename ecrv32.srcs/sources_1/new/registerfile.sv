@@ -28,7 +28,7 @@ always @(posedge clock) begin
 		registers[9]  <= 32'h00000000; // s1 (saved register)
 		registers[10] <= 32'h00000000; // a0 (function arguments/return values)
 		registers[11] <= 32'h00000000; // a1
-		registers[12] <= 32'h00000100; // a2 (function arguments)
+		registers[12] <= 32'h00000000; // a2 (function arguments)
 		registers[13] <= 32'h00000000; // a3
 		registers[14] <= 32'h00000000; // a4
 		registers[15] <= 32'h00000000; // a5
@@ -44,7 +44,7 @@ always @(posedge clock) begin
 		registers[25] <= 32'h00000000; // s9
 		registers[26] <= 32'h00000000; // s10
 		registers[27] <= 32'h00000000; // s11
-		registers[28] <= 32'h0000000F; // t3
+		registers[28] <= 32'h00000000; // t3
 		registers[29] <= 32'h00000000; // t4
 		registers[30] <= 32'h00000000; // t5
 		registers[31] <= 32'h00000000; // t6

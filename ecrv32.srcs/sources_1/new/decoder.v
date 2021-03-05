@@ -37,11 +37,11 @@ always @(*) begin
 		func3 = instruction[14:12];
 		func7 = instruction[31:25];
 		selectimmedasrval2 = opcode==`OPCODE_OP_IMM ? 1'b1 : 1'b0;
-		case (opcode)
+		case (instruction[6:0])
 			`OPCODE_OP: begin
 				if (instruction[25]==1'b0) begin // Not M extension
 					case (func3)
-						3'b000: aluop = (func7[5] == 1'b0 ? `ALU_ADD : `ALU_SUB);
+						3'b000: aluop = func7[5] == 1'b0 ? `ALU_ADD : `ALU_SUB;
 						3'b001: aluop = `ALU_SLL;
 						3'b010: aluop = `ALU_SLT;
 						3'b011: aluop = `ALU_SLTU;

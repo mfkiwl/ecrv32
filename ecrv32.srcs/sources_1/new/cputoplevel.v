@@ -86,12 +86,14 @@ registerfile regs(
 wire [31:0] rval2selector = selectimmedasrval2 ? imm : rval2;
 wire [31:0] incrementedpc = PC + PCINCREMENT;
 wire [31:0] incrementedbyimmpc = PC + imm;
-InstructionDecompression rv32cdecompress(.instr_lowword(ICACHE[{1'b0,PC[4:1]}]), .instr_highword(ICACHE[{1'b0,PC[4:1]}+5'd1]), .is_compressed(is_compressed), .fullinstr(fullinstruction));
+instructiondecompressor rv32cdecompress(.instr_lowword(ICACHE[{1'b0,PC[4:1]}]), .instr_highword(ICACHE[{1'b0,PC[4:1]}+5'd1]), .is_compressed(is_compressed), .fullinstr(fullinstruction));
 
 wire alustall;
+wire divstart = cpustate[CPUFETCH]==1'b1 && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH
 ALU aluunit(
 	.reset(reset),
 	.clock(clock),
+	.divstart(divstart),
 	.aluout(aluout),
 	.func3(func3),
 	.val1(rval1),
