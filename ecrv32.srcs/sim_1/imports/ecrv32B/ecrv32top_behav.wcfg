@@ -11,12 +11,12 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2143824fs"></ZoomStartTime>
-      <ZoomEndTime time="2595025fs"></ZoomEndTime>
-      <Cursor1Time time="2265000fs"></Cursor1Time>
+      <ZoomStartTime time="2049800fs"></ZoomStartTime>
+      <ZoomEndTime time="2502201fs"></ZoomEndTime>
+      <Cursor1Time time="2185000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="192"></NameColumnWidth>
+      <NameColumnWidth column_width="186"></NameColumnWidth>
       <ValueColumnWidth column_width="88"></ValueColumnWidth>
    </column_width_setting>
    <WVObjectSize size="112" />
@@ -176,14 +176,6 @@
       <obj_property name="ElementShortName">aluop[4:0]</obj_property>
       <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rval1" type="array">
-      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rval2" type="array">
-      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/ecrv32top/riscvcore/aluout" type="array">
       <obj_property name="ElementShortName">aluout[31:0]</obj_property>
       <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
@@ -220,6 +212,14 @@
    <wvobject fp_name="/ecrv32top/riscvcore/rd" type="array">
       <obj_property name="ElementShortName">rd[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rval1" type="array">
+      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/riscvcore/rval2" type="array">
+      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/ecrv32top/riscvcore/regs/wren" type="logic">
       <obj_property name="ElementShortName">wren</obj_property>

@@ -40,7 +40,7 @@ module ecrv32top(
 	output [0:0] ddr3_odt*/ );
 
 // Wires and registers
-wire cpuclock, videoclock, uartbase, rasterclock, clocklocked;
+wire cpuclock, videoclock, uartbase, clocklocked;
 wire [31:0] memaddress;
 wire [31:0] writeword;
 wire [31:0] mem_data;
@@ -81,7 +81,6 @@ CoreClockGen SystemClockGen(
 	.cpuclock(cpuclock),
 	.videoclock(videoclock),
 	.uartbase(uartbase),
-	.rasterclock(rasterclock),
 	.resetn(~reset),
 	.locked(clocklocked),
 	.clk_in1(CLK100MHZ) );
@@ -107,7 +106,6 @@ VRAMGen VideoMem(
 	.doutb(vramdataout) );
 	
 // CPU Core
-wire [3:0] cpudiag;
 cputoplevel riscvcore(
 	.reset((reset) | (~clocklocked)),
 	.clock(cpuclock),
@@ -122,8 +120,7 @@ cputoplevel riscvcore(
     .fifore(fifore),
     .fifoout(fifoout),
     .fifovalid(fifovalid),
-    .fifodatacount(fifodatacount),
-    .cpudiag(cpudiag) );
+    .fifodatacount(fifodatacount) );
     
 /*ddr3ctl externalmemory(
   // Inouts
@@ -263,7 +260,6 @@ always @(posedge(videoclock)) begin
 	end
 end
 
-// CPU diagnosis lights
-assign led = cpudiag;
+assign led = {reset, 1'b0, 1'b0, 1'b0};
 
 endmodule

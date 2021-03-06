@@ -18,8 +18,7 @@ module cputoplevel(
 	output reg fifore,
     input wire [7:0] fifoout,
     input wire fifovalid,
-    input wire [10:0] fifodatacount,
-    output wire [3:0] cpudiag );
+    input wire [10:0] fifodatacount );
 
 // Instruction cache
 reg [26:0] ICACHEADDR = 27'hF;			// Truncated lower bits
@@ -348,7 +347,7 @@ always @(posedge clock) begin
 				uartsend <= 1'b0;
 				cpustate[CPUFETCH] <= 1'b1;
 			end
-			
+
 			cpustate[CPUSTORE]: begin
 				if (memaddress[31:28] == 4'b0100) begin // 0x40000000: UART OUT
 					if (~uarttxbusy) begin
@@ -392,7 +391,5 @@ always @(posedge clock) begin
 		endcase
 	end
 end
-
-assign cpudiag = {alustall, cpustate[CPUSTALL], cpustate[CPUINIT], cpustate[CPUEXEC]};
 
 endmodule
