@@ -56,7 +56,6 @@ always_ff @(posedge clk) begin
 		div_Q <= 32'd0;
 		div_state <= 2'b00;
 	end else begin
-		divdone <= 1'b0;
 		if (start) begin
 			if (y[30:0] == 31'd0) begin // could be zero or minus zero
 				busy <= 1'b0;
@@ -67,6 +66,7 @@ always_ff @(posedge clk) begin
 				divsigned <= 1'b0;
 				div_Q <= 32'd0;
 				div_state <= 2'b00;
+				divdone <= 1'b1;
 			end else begin
 				busy <= 1'b1;
 				dbz <= 1'b0;
@@ -76,6 +76,7 @@ always_ff @(posedge clk) begin
 				divsigned <= x[31];
 				div_Q <= 32'd0;
 				div_state <= 2'b01;
+				divdone <= 1'b0;
 			end
 		end else begin
 			case(div_state)
@@ -88,6 +89,7 @@ always_ff @(posedge clk) begin
 						div_R <= div_R + ((div_D^32'hFFFFFFFF)+1); // same as div_R = div_R - div_D
 						div_Q <= div_Q + 32'd1; // Increment quotient
 					end
+					divdone <= 1'b0;
 				end
 				2'b10: begin
 					// Final result has the sign of xor of A and B
@@ -98,6 +100,7 @@ always_ff @(posedge clk) begin
 					divdone <= 1'b1;
 				end
 				default: begin
+					divdone <= 1'b0;
 				end
 			endcase
 		end

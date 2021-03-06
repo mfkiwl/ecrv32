@@ -18,7 +18,8 @@ module cputoplevel(
 	output reg fifore,
     input wire [7:0] fifoout,
     input wire fifovalid,
-    input wire [10:0] fifodatacount );
+    input wire [10:0] fifodatacount,
+    output wire [3:0] cpudiag );
 
 // Instruction cache
 reg [26:0] ICACHEADDR = 27'hF;			// Truncated lower bits
@@ -83,10 +84,14 @@ registerfile regs(
 wire [31:0] rval2selector = selectimmedasrval2 ? imm : rval2;
 wire [31:0] incrementedpc = is_compressed ? PC + 32'd2 : PC + 32'd4;
 wire [31:0] incrementedbyimmpc = PC + imm;
-instructiondecompressor rv32cdecompress(.instr_lowword(ICACHE[{1'b0,PC[4:1]}]), .instr_highword(ICACHE[{1'b0,PC[4:1]}+5'd1]), .is_compressed(is_compressed), .fullinstr(fullinstruction));
+// If we've missed the cache, produce NOOP during cache fill to avoid strange ALU/regfile/decoder behavior
+wire icachenotmissed = PC[31:5] == ICACHEADDR;
+wire [15:0] instrhi = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}+5'd1] : 16'h0000;
+wire [15:0] instrlo = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}] : {25'd0,`ADDI};
+instructiondecompressor rv32cdecompress(.instr_lowword(instrlo), .instr_highword(instrhi), .is_compressed(is_compressed), .fullinstr(fullinstruction));
 
 wire alustall;
-wire divstart = cpustate[CPUFETCH]==1'b1 && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH
+wire divstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH when cache is not missed
 ALU aluunit(
 	.reset(reset),
 	.clock(clock),
@@ -146,7 +151,7 @@ always @(posedge clock) begin
 			end
 
 			cpustate[CPUFETCH] : begin
-				if (PC[31:5] == ICACHEADDR) begin // Still in instruction cache?
+				if (icachenotmissed) begin // Still in instruction cache?
 					if (alustall) begin
 						cpustate[CPUSTALL] <= 1'b1;
 					end else begin
@@ -382,10 +387,12 @@ always @(posedge clock) begin
 			end
 
 			default : begin
-				cpustate[CPUINIT] <= 1'b1;
+				cpustate[CPUSTALL] <= 1'b1;
 			end
 		endcase
 	end
 end
+
+assign cpudiag = {alustall, cpustate[CPUSTALL], cpustate[CPUINIT], cpustate[CPUEXEC]};
 
 endmodule

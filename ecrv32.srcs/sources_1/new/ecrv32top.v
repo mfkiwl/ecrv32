@@ -107,6 +107,7 @@ VRAMGen VideoMem(
 	.doutb(vramdataout) );
 	
 // CPU Core
+wire [3:0] cpudiag;
 cputoplevel riscvcore(
 	.reset((reset) | (~clocklocked)),
 	.clock(cpuclock),
@@ -121,7 +122,8 @@ cputoplevel riscvcore(
     .fifore(fifore),
     .fifoout(fifoout),
     .fifovalid(fifovalid),
-    .fifodatacount(fifodatacount) );
+    .fifodatacount(fifodatacount),
+    .cpudiag(cpudiag) );
     
 /*ddr3ctl externalmemory(
   // Inouts
@@ -217,7 +219,7 @@ always @(posedge(uartbase)) begin
 	end
 end
 
-// VGA
+// VGA clock generator
 video vgaout(
 	.clk(videoclock),
 	.reset((reset) | (~clocklocked)),
@@ -231,6 +233,7 @@ video vgaout(
     .cacherow(cacherow),
 	.videobyteselect(videobyteselect));
 
+// Scanline cache to scan-out conversion
 always @(posedge(videoclock)) begin
 	if (cacherow) begin
 		scanlinecache[cacheaddress] <= vramdataout;
@@ -260,9 +263,7 @@ always @(posedge(videoclock)) begin
 	end
 end
 
-assign led[0] = 1'b0;
-assign led[1] = 1'b0;
-assign led[2] = 1'b0;
-assign led[3] = 1'b0;
+// CPU diagnosis lights
+assign led = cpudiag;
 
 endmodule
