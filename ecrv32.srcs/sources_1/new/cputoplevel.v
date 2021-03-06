@@ -53,9 +53,6 @@ wire [31:0] imm;
 wire selectimmedasrval2;
 wire [31:0] fullinstruction;
 wire is_compressed;
-//reg [31:0] PCINCREMENT;
-
-wire [31:0] PCINCREMENT = is_compressed ? 32'd2 : 32'd4;
 
 decoder idecode(
 	.clock(clock),
@@ -84,7 +81,7 @@ registerfile regs(
 
 // Selectors / precalcs / decompressor
 wire [31:0] rval2selector = selectimmedasrval2 ? imm : rval2;
-wire [31:0] incrementedpc = PC + PCINCREMENT;
+wire [31:0] incrementedpc = is_compressed ? PC + 32'd2 : PC + 32'd4;
 wire [31:0] incrementedbyimmpc = PC + imm;
 instructiondecompressor rv32cdecompress(.instr_lowword(ICACHE[{1'b0,PC[4:1]}]), .instr_highword(ICACHE[{1'b0,PC[4:1]}+5'd1]), .is_compressed(is_compressed), .fullinstr(fullinstruction));
 

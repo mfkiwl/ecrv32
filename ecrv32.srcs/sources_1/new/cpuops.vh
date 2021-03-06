@@ -1,4 +1,4 @@
-// RV32I			[6:0]		[14:12] [31:25] [24:20]
+// RV32 I			[6:0]		[14:12] [31:25] [24:20]
 `define LUI			7'b0110111  //+
 `define AUIPC		7'b0010111  //+
 `define JAL			7'b1101111  //+
@@ -40,7 +40,7 @@
 `define ECALL		7'b1110011	// 000  0000000  00000
 `define EBREAK		7'b1110011	// 000  0000000  00001
 
-// RV32M			[6:0]		[14:12] [31:25] [24:20]
+// RV32 M			[6:0]		[14:12] [31:25] [24:20]
 `define MUL			7'b0110011	// 000  0000001
 `define MULH		7'b0110011	// 001  0000001
 `define MULHSU		7'b0110011	// 010  0000001
@@ -49,6 +49,57 @@
 `define DIVU		7'b0110011	// 101  0000001
 `define REM			7'b0110011	// 110  0000001
 `define REMU		7'b0110011	// 111  0000001
+
+// RV32 C
+// Quadrant 0
+`define CADDI4SPN	5'b00000 // RES, nzuimm=0 +
+//`define CFLD		5'b00100 // 32/64
+//`define CLQ			5'b00100 // 128
+`define CLW			5'b01000 // 32? +
+//`define CFLW		5'b01100 // 32
+//`define CLD			5'b01100 // 64/128 
+//`define CFSD		5'b10100 // 32/64
+//`define CSQ			5'b10100 // 128
+`define CSW			5'b11000 // 32? +
+//`define CFSW		5'b11100 // 32 
+//`define CSD			5'b11100 // 61/128
+// Quadrant 1									 [12] [11:10] [6:5]
+`define CNOP		5'b00001 // HINT, nzimm!=0 +
+`define CADDI		5'b00001 // HINT, nzimm=0 +
+`define CJAL		5'b00101 // 32 +
+//`define CADDIW		5'b00101 // 64/128
+`define CLI			5'b01001 //+
+`define CADDI16SP	5'b01101 //+
+`define CLUI		5'b01101 //+
+`define CSRLI		5'b10001 //+                      00      
+`define CSRAI		5'b10001 //+                      01      
+`define CANDI		5'b10001 //+                      10      
+`define CSUB		5'b10001 //+                  0   11      00
+`define CXOR		5'b10001 //+                  0   11      01
+`define COR			5'b10001 //+                  0   11      10
+`define CAND		5'b10001 //+                  0   11      11
+//`define CSUBW		5'b10001 //-                  1   11      00
+//`define CADDW		5'b10001 //-                  1   11      01
+`define CJ			5'b10101 //+
+`define CBEQZ		5'b11001 //+
+`define CBNEZ		5'b11101 //+
+// Quadrant 2
+`define CSLLI		5'b00010 //+
+//`define CFLDSP		5'b00110
+//`define CLQSP		5'b00110
+`define CLWSP		5'b01010 //+
+//`define CFLWSP		5'b01110
+//`define CLDSP		5'b01110
+`define CJR			5'b10010 //+
+`define CMV			5'b10010 //+
+`define CEBREAK		5'b10010 //+
+`define CJALR		5'b10010 //+
+`define CADD		5'b10010 //+
+//`define CFSDSP		5'b10110
+//`define CSQSP		5'b10110
+`define CSWSP		5'b11010 //+
+//`define CFSWSP		5'b11110
+//`define CSDSP		5'b11110
 
 `define OPCODE_OP_IMM 	7'b0010011
 `define OPCODE_OP		7'b0110011
