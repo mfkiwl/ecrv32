@@ -11,12 +11,12 @@ module instructiondecompressor(
 );
 
 always @ (*) begin
-  if (instr_lowword[1:0] == 2'b11) begin
+	if (instr_lowword[1:0] == 2'b11) begin
 
-	// Already decompressed
-	is_compressed = 1'b0;
+		// Already decompressed
+		is_compressed = 1'b0;
 
-	fullinstr = {instr_highword, instr_lowword};
+		fullinstr = {instr_highword, instr_lowword};
 
 	end else begin
 
@@ -127,7 +127,6 @@ always @ (*) begin
 			default: begin
 				fullinstr = 32'd0; // UNDEF
 			end
-	
 		endcase
 
 	end

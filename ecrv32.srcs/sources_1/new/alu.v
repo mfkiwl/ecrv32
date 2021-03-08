@@ -37,6 +37,7 @@ divider thediv (
 );
 
 always @(*) begin
+
 	case (aluop)
 		// I
 		`ALU_ADD:  begin aluout = val1 + val2; end

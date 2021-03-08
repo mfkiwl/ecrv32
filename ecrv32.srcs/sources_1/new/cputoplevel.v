@@ -128,25 +128,25 @@ always @(posedge clock) begin
 				fifore <= 1'b0;
 				ICACHEADDR <= 27'hF; 			// Invalid cache address
 				ICACHECOUNTER <= 6'd0;
-				ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
-				ICACHE[ 1] <= 16'h0000;	// 0x02  -> 0x1
-				ICACHE[ 2] <= 16'h0000;	// 0x04  -> 0x2
-				ICACHE[ 3] <= 16'h0000;	// 0x06  -> 0x3
-				ICACHE[ 4] <= 16'h0000;	// 0x08  -> 0x4
-				ICACHE[ 5] <= 16'h0000;	// 0x0A  -> 0x5
-				ICACHE[ 6] <= 16'h0000;	// 0x0C  -> 0x6
-				ICACHE[ 7] <= 16'h0000;	// 0x0E  -> 0x7
-				ICACHE[ 8] <= 16'h0000;	// 0x10  -> 0x8
-				ICACHE[ 9] <= 16'h0000;	// 0x12  -> 0x9
-				ICACHE[10] <= 16'h0000;	// 0x14  -> 0xA
-				ICACHE[11] <= 16'h0000;	// 0x16  -> 0xB
-				ICACHE[12] <= 16'h0000;	// 0x18  -> 0xC
-				ICACHE[13] <= 16'h0000;	// 0x1A  -> 0xD
-				ICACHE[14] <= 16'h0000;	// 0x1C  -> 0xE
-				ICACHE[15] <= 16'h0000;	// 0x1E  -> 0xF
+				//ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
+				//ICACHE[ 1] <= 16'h0000;	// 0x02  -> 0x1
+				//ICACHE[ 2] <= 16'h0000;	// 0x04  -> 0x2
+				//ICACHE[ 3] <= 16'h0000;	// 0x06  -> 0x3
+				//ICACHE[ 4] <= 16'h0000;	// 0x08  -> 0x4
+				//ICACHE[ 5] <= 16'h0000;	// 0x0A  -> 0x5
+				//ICACHE[ 6] <= 16'h0000;	// 0x0C  -> 0x6
+				//ICACHE[ 7] <= 16'h0000;	// 0x0E  -> 0x7
+				//ICACHE[ 8] <= 16'h0000;	// 0x10  -> 0x8
+				//ICACHE[ 9] <= 16'h0000;	// 0x12  -> 0x9
+				//ICACHE[10] <= 16'h0000;	// 0x14  -> 0xA
+				//ICACHE[11] <= 16'h0000;	// 0x16  -> 0xB
+				//ICACHE[12] <= 16'h0000;	// 0x18  -> 0xC
+				//ICACHE[13] <= 16'h0000;	// 0x1A  -> 0xD
+				//ICACHE[14] <= 16'h0000;	// 0x1C  -> 0xE
+				//ICACHE[15] <= 16'h0000;	// 0x1E  -> 0xF
 				// TODO: Spare for misaligned instructions
-				ICACHE[16] <= 16'h0000;
-				ICACHE[17] <= 16'h0000;
+				//ICACHE[16] <= 16'h0000;
+				//ICACHE[17] <= 16'h0000;
 			end
 
 			cpustate[CPUFETCH] : begin
