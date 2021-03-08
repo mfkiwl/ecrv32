@@ -31,7 +31,7 @@ CPUSTORE=6, CPUEXEC=7, CPURETIREINSTRUCTION=8, CPUUARTREAD=9, CPUSTALL=10;
 reg [10:0] cpustate = 11'd1;
 
 // Program counter
-reg [31:0] PC = 32'd0;
+reg [31:0] PC = 32'h000FA00;
 reg [31:0] nextPC = 32'd0;
 
 // Instruction decomposition
@@ -114,7 +114,7 @@ always @(posedge clock) begin
 		case (1'b1) // synthesis parallel_case full_case
 
 			cpustate[CPUINIT] : begin
-				PC <= 32'd0;
+				PC <= 32'h000FA00; // ROM reset vector
 				nextPC <= 32'd0;
 				memaddress <= 32'd0;
 				mem_writeena <= 4'b0000;
