@@ -83,6 +83,7 @@ registerfile regs(
 wire [31:0] rval2selector = selectimmedasrval2 ? imm : rval2;
 wire [31:0] incrementedpc = is_compressed ? PC + 32'd2 : PC + 32'd4;
 wire [31:0] incrementedbyimmpc = PC + imm;
+wire [31:0] rval1plusimm = rval1 + imm;
 // If we've missed the cache, produce NOOP during cache fill to avoid strange ALU/regfile/decoder behavior
 wire icachenotmissed = PC[31:5] == ICACHEADDR;
 wire [15:0] instrhi = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}+5'd1] : 16'h0000;
@@ -114,7 +115,7 @@ always @(posedge clock) begin
 		case (1'b1) // synthesis parallel_case full_case
 
 			cpustate[CPUINIT] : begin
-				PC <= 32'h000FA00; // ROM reset vector
+				PC <= 32'h000FA00; // Reset vector
 				nextPC <= 32'd0;
 				memaddress <= 32'd0;
 				mem_writeena <= 4'b0000;
@@ -148,7 +149,7 @@ always @(posedge clock) begin
 				//ICACHE[16] <= 16'h0000;
 				//ICACHE[17] <= 16'h0000;
 			end
-
+			
 			cpustate[CPUFETCH] : begin
 				if (icachenotmissed) begin // Still in instruction cache?
 					if (alustall) begin
@@ -234,21 +235,21 @@ always @(posedge clock) begin
 						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					`OPCODE_LOAD: begin
-						memaddress <= rval1 + imm;
+						memaddress <= rval1plusimm;
 						chipselect <= 1'b0;
 						nextPC <= incrementedpc;
 						cpustate[CPULOADWAIT] <= 1'b1;
 					end
 					`OPCODE_STORE: begin
 						data <= rval2;
-						memaddress <= rval1 + imm;
+						memaddress <= rval1plusimm;
 						nextPC <= incrementedpc;
 						cpustate[CPUSTORE] <= 1'b1;
 					end
 					`OPCODE_JALR: begin
 						wren <= 1'b1;
 						data <= incrementedpc;
-						nextPC <= rval1 + imm;
+						nextPC <= rval1plusimm;
 						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					`OPCODE_BRANCH: begin
@@ -256,9 +257,9 @@ always @(posedge clock) begin
 						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					default: begin
-						// These are illegal / unhandled or non-op instructions, perhaps TRAP?
-						nextPC <= incrementedpc;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+						// These are illegal / unhandled or non-op instructions, jump back to reset vector
+						nextPC <= 32'h000FA00;
+						cpustate[CPUFETCH] <= 1'b1;
 					end
 				endcase
 			end
