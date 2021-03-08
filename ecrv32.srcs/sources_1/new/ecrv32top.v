@@ -5,8 +5,9 @@ module ecrv32top(
 	// System reset key
 	input wire reset,
 
-	// Input clock
+	// Input clocks
 	input wire CLK100MHZ,
+	input wire CLK12MHZ,
 
 	// VGA pins
 	output reg [3:0] VGA_R,
@@ -40,7 +41,7 @@ module ecrv32top(
 	output [0:0] ddr3_odt*/ );
 
 // Wires and registers
-wire cpuclock, videoclock, uartbase, clocklocked;
+wire cpuclock, videoclock, uartbase, clockAlocked, clockBlocked;
 wire [31:0] memaddress;
 wire [31:0] writeword;
 wire [31:0] mem_data;
@@ -76,14 +77,21 @@ wire cacherow;
 
 reg [31:0] scanlinecache [0:63];
 
-// Clock
-CoreClockGen SystemClockGen(
+// Clocks
+CoreClockGen SystemClock(
 	.cpuclock(cpuclock),
+	.resetn(~reset),
+	.locked(clockAlocked),
+	.clk_in1(CLK100MHZ) );
+
+PeripheralClockGen PeripheralClock(
 	.videoclock(videoclock),
 	.uartbase(uartbase),
 	.resetn(~reset),
-	.locked(clocklocked),
-	.clk_in1(CLK100MHZ) );
+	.locked(clockBlocked),
+	.clk_in1(CLK12MHZ) );
+
+wire clocklocked = clockAlocked & clockBlocked;
 
 // System Memory
 SysMemGen SysMem(

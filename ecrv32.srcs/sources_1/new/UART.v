@@ -20,7 +20,7 @@ module async_transmitter(
 // Assert TxD_start for (at least) one clock cycle to start transmission of TxD_data
 // TxD_data is latched so that it doesn't have to stay valid while it is being sent
 
-parameter ClkFrequency = 100000000;	// 100MHz
+parameter ClkFrequency = 100000000;	// 100MHz - Synced to CPU clock 
 parameter Baud = 115200;
 
 ////////////////////////////////
