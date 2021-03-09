@@ -18,7 +18,12 @@ module cputoplevel(
 	output reg fifore,
     input wire [7:0] fifoout,
     input wire fifovalid,
-    input wire [10:0] fifodatacount );
+    input wire [10:0] fifodatacount,
+    input wire sdtxready,
+    output reg spisend,
+    output reg [7:0] spioutput,
+    input wire spiinputready,
+    input wire [7:0] spiinput);
 
 // Instruction cache
 reg [26:0] ICACHEADDR = 27'hF;			// Truncated lower bits
@@ -127,6 +132,8 @@ always @(posedge clock) begin
 				uartsend <= 1'b0;
 				uartbyte <= 8'd0;
 				fifore <= 1'b0;
+    			spisend <= 1'b0;
+    			spioutput <= 8'd0;
 				ICACHEADDR <= 27'hF; 			// Invalid cache address
 				ICACHECOUNTER <= 6'd0;
 				//ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
@@ -266,6 +273,15 @@ always @(posedge clock) begin
 			
 			cpustate[CPULOADWAIT]: begin
 				case (memaddress[31:28])
+					4'b0011: begin // 0x30000000: SPI IN
+						if (spiinputready) begin
+							wren <= 1'b1;
+							data <= {21'd0, spiinput};
+							cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+						end else begin
+							cpustate[CPULOADWAIT] <= 1'b1;
+						end
+					end
 					4'b0110: begin // 0x60000000: UART OUT - STATUS:Receive counter
 						wren <= 1'b1;
 						data <= {21'd0, fifodatacount};
@@ -346,6 +362,7 @@ always @(posedge clock) begin
 				mem_writeena <= 4'b0000;
 				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
 				uartsend <= 1'b0;
+				spisend <= 1'b0;
 				cpustate[CPUFETCH] <= 1'b1;
 			end
 
@@ -357,6 +374,14 @@ always @(posedge clock) begin
 						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end else begin
 						cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock
+					end
+				end else if (memaddress[31:28] == 4'b0010) begin // 0x20000000: SPI OUT
+					if (sdtxready) begin
+						spioutput <= rval2[7:0]; // Always send lower byte only
+						spisend <= 1'b1;
+						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+					end else begin
+						cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
 					end
 				end else begin
 					cpustate[CPURETIREINSTRUCTION] <= 1'b1;

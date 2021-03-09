@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="2049800fs"></ZoomStartTime>
-      <ZoomEndTime time="2502201fs"></ZoomEndTime>
-      <Cursor1Time time="2185000fs"></Cursor1Time>
+      <ZoomStartTime time="55805000fs"></ZoomStartTime>
+      <ZoomEndTime time="67205001fs"></ZoomEndTime>
+      <Cursor1Time time="57705000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="186"></NameColumnWidth>
+      <NameColumnWidth column_width="168"></NameColumnWidth>
       <ValueColumnWidth column_width="88"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="112" />
+   <WVObjectSize size="131" />
    <wvobject fp_name="/ecrv32top/reset" type="logic">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -485,5 +485,81 @@
    <wvobject fp_name="/ecrv32top/vgaout/CounterYmaxed" type="logic">
       <obj_property name="ElementShortName">CounterYmaxed</obj_property>
       <obj_property name="ObjectShortName">CounterYmaxed</obj_property>
+   </wvobject>
+   <wvobject type="divider" fp_name="divider113">
+      <obj_property name="label">SDCARD</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_Rst_L" type="logic">
+      <obj_property name="ElementShortName">i_Rst_L</obj_property>
+      <obj_property name="ObjectShortName">i_Rst_L</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_Clk" type="logic">
+      <obj_property name="ElementShortName">i_Clk</obj_property>
+      <obj_property name="ObjectShortName">i_Clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_Count" type="array">
+      <obj_property name="ElementShortName">i_TX_Count[1:0]</obj_property>
+      <obj_property name="ObjectShortName">i_TX_Count[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_Byte" type="array">
+      <obj_property name="ElementShortName">i_TX_Byte[7:0]</obj_property>
+      <obj_property name="ObjectShortName">i_TX_Byte[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_DV" type="logic">
+      <obj_property name="ElementShortName">i_TX_DV</obj_property>
+      <obj_property name="ObjectShortName">i_TX_DV</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_TX_Ready" type="logic">
+      <obj_property name="ElementShortName">o_TX_Ready</obj_property>
+      <obj_property name="ObjectShortName">o_TX_Ready</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_Count" type="array">
+      <obj_property name="ElementShortName">o_RX_Count[1:0]</obj_property>
+      <obj_property name="ObjectShortName">o_RX_Count[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_DV" type="logic">
+      <obj_property name="ElementShortName">o_RX_DV</obj_property>
+      <obj_property name="ObjectShortName">o_RX_DV</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_Byte" type="array">
+      <obj_property name="ElementShortName">o_RX_Byte[7:0]</obj_property>
+      <obj_property name="ObjectShortName">o_RX_Byte[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_Clk" type="logic">
+      <obj_property name="ElementShortName">o_SPI_Clk</obj_property>
+      <obj_property name="ObjectShortName">o_SPI_Clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/i_SPI_MISO" type="logic">
+      <obj_property name="ElementShortName">i_SPI_MISO</obj_property>
+      <obj_property name="ObjectShortName">i_SPI_MISO</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_MOSI" type="logic">
+      <obj_property name="ElementShortName">o_SPI_MOSI</obj_property>
+      <obj_property name="ObjectShortName">o_SPI_MOSI</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_CS_n" type="logic">
+      <obj_property name="ElementShortName">o_SPI_CS_n</obj_property>
+      <obj_property name="ObjectShortName">o_SPI_CS_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/r_SM_CS" type="array">
+      <obj_property name="ElementShortName">r_SM_CS[1:0]</obj_property>
+      <obj_property name="ObjectShortName">r_SM_CS[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/r_CS_n" type="logic">
+      <obj_property name="ElementShortName">r_CS_n</obj_property>
+      <obj_property name="ObjectShortName">r_CS_n</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/r_CS_Inactive_Count" type="array">
+      <obj_property name="ElementShortName">r_CS_Inactive_Count[-1:0]</obj_property>
+      <obj_property name="ObjectShortName">r_CS_Inactive_Count[-1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/r_TX_Count" type="array">
+      <obj_property name="ElementShortName">r_TX_Count[1:0]</obj_property>
+      <obj_property name="ObjectShortName">r_TX_Count[1:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/ecrv32top/SDCardController/w_Master_Ready" type="logic">
+      <obj_property name="ElementShortName">w_Master_Ready</obj_property>
+      <obj_property name="ObjectShortName">w_Master_Ready</obj_property>
    </wvobject>
 </wave_config>

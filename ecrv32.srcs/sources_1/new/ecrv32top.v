@@ -21,10 +21,19 @@ module ecrv32top(
 
 	// UART pins
 	output wire uart_rxd_out,
-	input wire uart_txd_in/*,
+	input wire uart_txd_in,
+	
+	// SD Card PMOD on port A
+	output wire cs_n, // CS/CD/DAT3
+	output wire mosi, // MOSI/CMD/DI
+	input wire miso, // MISO/DAT0/DO
+	output wire sck, // SCLK/CK
+	//inout wire [1:0] dat, // DAT1&DAT2
+	input wire cd // CD
 
+	/*
 	// DDR3 pins
-	inout [15:0] ddr3_dq,
+	, inout [15:0] ddr3_dq,
 	inout [1:0] ddr3_dqs_n,
 	inout [1:0] ddr3_dqs_p,
 	output [13:0] ddr3_addr,
@@ -41,7 +50,7 @@ module ecrv32top(
 	output [0:0] ddr3_odt*/ );
 
 // Wires and registers
-wire cpuclock, videoclock, uartbase, clockAlocked, clockBlocked;
+wire cpuclock, videoclock, uartbase, sdcardclock, clockAlocked, clockBlocked;
 wire [31:0] memaddress;
 wire [31:0] writeword;
 wire [31:0] mem_data;
@@ -87,6 +96,7 @@ CoreClockGen SystemClock(
 PeripheralClockGen PeripheralClock(
 	.videoclock(videoclock),
 	.uartbase(uartbase),
+	.sdcardclock(sdcardclock),
 	.resetn(~reset),
 	.locked(clockBlocked),
 	.clk_in1(CLK12MHZ) );
@@ -114,6 +124,11 @@ VRAMGen VideoMem(
 	.doutb(vramdataout) );
 	
 // CPU Core
+wire sddatavalid;
+wire sdtxready;
+wire sdtxdatavalid;
+wire [7:0] sdtxdata;
+wire [7:0] sdrcvdata;
 cputoplevel riscvcore(
 	.reset((reset) | (~clocklocked)),
 	.clock(cpuclock),
@@ -128,7 +143,12 @@ cputoplevel riscvcore(
     .fifore(fifore),
     .fifoout(fifoout),
     .fifovalid(fifovalid),
-    .fifodatacount(fifodatacount) );
+    .fifodatacount(fifodatacount),
+	.sdtxready(sdtxready),
+    .spisend(sdtxdatavalid),
+    .spioutput(sdtxdata),
+    .spiinputready(sddatavalid),
+    .spiinput(sdrcvdata) );
     
 /*ddr3ctl externalmemory(
   // Inouts
@@ -268,6 +288,32 @@ always @(posedge(videoclock)) begin
 	end
 end
 
-assign led = {reset, 1'b0, 1'b0, 1'b0};
+// SDCARD
+SPI_Master_With_Single_CS SDCardController (
+	// Control/Data Signals
+	.i_Rst_L((~reset) & (clocklocked)),	// FPGA Reset
+	.i_Clk(cpuclock),					// FPGA Clock @100Mhz
+   
+	// TX (MOSI) Signals
+	.i_TX_Count(2'b10),					// Bytes per CS low
+	.i_TX_Byte(sdtxdata),				// Byte to transmit on MOSI
+	.i_TX_DV(sdtxdatavalid),			// Data Valid Pulse with i_TX_Byte
+	.o_TX_Ready(sdtxready),				// Transmit Ready for next byte
+
+	// RX (MISO) Signals
+	.o_RX_DV(sddatavalid),				// Data Valid pulse (1 clock cycle)
+	.o_RX_Byte(sdrcvdata),			// Byte received on MISO
+
+	// SPI Interface
+	.o_SPI_Clk(sck),
+	.i_SPI_MISO(miso),
+	.o_SPI_MOSI(mosi),
+	.o_SPI_CS_n(cs_n) );
+
+//assign dat[0] = 1'b1;
+//assign dat[1] = 1'b1;
+
+// SoC status LEDs
+assign led = {reset, sddatavalid, sdtxready, cd};
 
 endmodule
