@@ -40,3 +40,9 @@ Hardware / Software:
 - Support booting an OS
 
 NOTE: Documentation is in progress, more detail will follow briefly.
+
+# Example code
+
+Please see the https://github.com/ecilasun/riscvtool repository for examples. Here's a sample of ECRV32 running the mandelbrot.elf from that repository, outputting to a small LCD panel attached to the VGA PMOD ports
+
+![Arty S7-25 With Addon PMODs](mandel.png)
