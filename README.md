@@ -11,7 +11,7 @@ Hardware / Software:
 - Digilent microSD PMOD connected to slot A (optional)
 - Digilent VGA output PMOD connected to slots B&C (optional)
 - The riscv-tool utility from https://github.com/ecilasun/riscvtool to be able to upload your own executables over USB UART
-- Visual Studio Code to develop your own ELF executables (based on samples from riscvtool project)
+- Visual Studio Code to develop your own ELF executables (based on samples from https://github.com/ecilasun/riscvtool project)
 
 # Features
 - 64Kbytes of on-chip RAM (RAM addresses between 0x00000000-0x0000FFFF)
