@@ -357,15 +357,6 @@ always @(posedge clock) begin
 				cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 			end
 			
-			cpustate[CPURETIREINSTRUCTION]: begin
-				wren <= 1'b0;
-				mem_writeena <= 4'b0000;
-				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
-				uartsend <= 1'b0;
-				spisend <= 1'b0;
-				cpustate[CPUFETCH] <= 1'b1;
-			end
-
 			cpustate[CPUSTORE]: begin
 				if (memaddress[31:28] == 4'b0100) begin // 0x40000000: UART OUT
 					if (~uarttxbusy) begin
@@ -409,6 +400,15 @@ always @(posedge clock) begin
 						end
 					endcase
 				end
+			end
+
+			cpustate[CPURETIREINSTRUCTION]: begin
+				wren <= 1'b0;
+				mem_writeena <= 4'b0000;
+				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
+				uartsend <= 1'b0;
+				spisend <= 1'b0;
+				cpustate[CPUFETCH] <= 1'b1;
 			end
 
 			default : begin
