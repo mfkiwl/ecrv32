@@ -10,7 +10,6 @@ module decoder(
 	input wire [31:0] instruction,
 	output reg [6:0] opcode,
 	output reg [4:0] aluop,
-	output reg [4:0] faluop,
 	output reg [4:0] rs1,
 	output reg [4:0] rs2,
 	output reg [4:0] rd,
@@ -20,7 +19,9 @@ module decoder(
 	output reg selectimmedasrval2);
 
 always @(*) begin
+
 	if (reset) begin
+
 		opcode = 7'd0;
 		rs1 = 5'd0;
 		rs2 = 5'd0;
@@ -30,7 +31,9 @@ always @(*) begin
 		imm = 32'd0;
 		selectimmedasrval2 = 1'b0;
 		aluop = `ALU_NONE;
+
 	end else begin
+
 		opcode = instruction[6:0];
 		rs1 = instruction[19:15];
 		rs2 = instruction[24:20];
@@ -61,7 +64,6 @@ always @(*) begin
 					endcase
 				end
 				imm = 32'd0;
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_OP_IMM: begin
@@ -76,37 +78,31 @@ always @(*) begin
 					3'b111: aluop = `ALU_AND;
 				endcase
 				imm = {{20{instruction[31]}},instruction[31:20]};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_LUI: begin
 				aluop = `ALU_NONE;
 				imm = {instruction[31:12],12'd0};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_STORE: begin
 				aluop = `ALU_NONE;
 				imm = {{20{instruction[31]}},instruction[31:25],instruction[11:7]};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_LOAD: begin
 				aluop = `ALU_NONE;
 				imm = {{20{instruction[31]}},instruction[31:20]};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_JAL: begin
 				aluop = `ALU_NONE;
 				imm = {{11{instruction[31]}}, instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_JALR: begin
 				aluop = `ALU_NONE;
 				imm = {{20{instruction[31]}},instruction[31:20]};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_BRANCH: begin
@@ -120,100 +116,32 @@ always @(*) begin
 					default: aluop = `ALU_NONE;
 				endcase
 				imm = {{19{instruction[31]}},instruction[31],instruction[7],instruction[30:25],instruction[11:8],1'b0};
-				faluop <= `ALU_FNONE;
 			end
 
 			`OPCODE_AUPC: begin
 				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
 				imm = {instruction[31:12],12'd0};
 			end
 
 			`OPCODE_FENCE: begin
 				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
 				imm = 32'd0;
 			end
 
 			`OPCODE_SYSTEM: begin
 				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
 				imm = 32'd0;
 			end
 			
-
-            `OPCODE_FLOAT_OP: begin
-                case (func7)
-                    7'b0000000: begin faluop <= `ALU_FADD; end // FADD
-                    7'b0000100: begin faluop <= `ALU_FADD; end // FSUB
-                    7'b0001000: begin faluop <= `ALU_FMUL; end // FMUL
-                    7'b0001100: begin faluop <= `ALU_FDIV; end // FDIV
-                    /*FSQRT       7'b0101100    00000
-                    FSGNJ       7'b0010000               000
-                    FSGNJN      7'b0010000               001
-                    FSGNJX      7'b0010000               010
-                    FMIN        7'b0010100               000
-                    FMAX        7'b0010100               001
-                    FCVTWS      7'b1100000    00000
-                    FCVTWUS     7'b1100000    00001
-                    FMVXW       7'b1110000    00000      000
-                    FEQ         7'b1010000               010
-                    FLT         7'b1010000               001
-                    FLE         7'b1010000               000
-                    FCLASS      7'b1110000    00000      001
-                    FCVTSW      7'b1101000    00000
-                    FCVTSWU     7'b1101000    00001
-                    FMVWX       7'b1111000    00000      000 */
-                    default: begin faluop <= `ALU_FNONE; end
-                endcase
-				aluop = `ALU_NONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_LD: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_ST: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_MADD: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_MSUB: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_NMSUB: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
-            `OPCODE_FLOAT_NMADD: begin
-				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
-				imm = 32'd0;
-            end
-
 			default: begin
 				// TODO: These are illegal / unhandled instructions, signal EXCEPTION_ILLEGAL_INSTRUCTION
 				aluop = `ALU_NONE;
-				faluop <= `ALU_FNONE;
 				imm = 32'd0;
 			end
 		endcase
+
 	end
+
 end
 
 endmodule
