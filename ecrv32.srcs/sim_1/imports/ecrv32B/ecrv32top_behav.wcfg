@@ -11,554 +11,877 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="55805000fs"></ZoomStartTime>
-      <ZoomEndTime time="67205001fs"></ZoomEndTime>
-      <Cursor1Time time="57705000fs"></Cursor1Time>
+      <ZoomStartTime time="54835600fs"></ZoomStartTime>
+      <ZoomEndTime time="55361801fs"></ZoomEndTime>
+      <Cursor1Time time="54996600fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="168"></NameColumnWidth>
-      <ValueColumnWidth column_width="88"></ValueColumnWidth>
+      <NameColumnWidth column_width="150"></NameColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="131" />
-   <wvobject fp_name="/ecrv32top/reset" type="logic">
+   <WVObjectSize size="212" />
+   <wvobject type="logic" fp_name="/ecrv32top/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/led" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/led">
       <obj_property name="ElementShortName">led[3:0]</obj_property>
       <obj_property name="ObjectShortName">led[3:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/CLK100MHZ" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/CLK100MHZ">
       <obj_property name="ElementShortName">CLK100MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK100MHZ</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/clocklocked" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/clocklocked">
       <obj_property name="ElementShortName">clocklocked</obj_property>
       <obj_property name="ObjectShortName">clocklocked</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/videoclock" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/videoclock">
       <obj_property name="ElementShortName">videoclock</obj_property>
       <obj_property name="ObjectShortName">videoclock</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider1613">
+   <wvobject fp_name="divider1613" type="divider">
       <obj_property name="label">UART</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/uartsend" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/uartsend">
       <obj_property name="ElementShortName">uartsend</obj_property>
       <obj_property name="ObjectShortName">uartsend</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/uartbyte" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/uartbyte">
       <obj_property name="ElementShortName">uartbyte[7:0]</obj_property>
       <obj_property name="ObjectShortName">uartbyte[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/uarttxbusy" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/uarttxbusy">
       <obj_property name="ElementShortName">uarttxbusy</obj_property>
       <obj_property name="ObjectShortName">uarttxbusy</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/fifore" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/fifore">
       <obj_property name="ElementShortName">fifore</obj_property>
       <obj_property name="ObjectShortName">fifore</obj_property>
       <obj_property name="CustomSignalColor">#008080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/fifoout" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/fifoout">
       <obj_property name="ElementShortName">fifoout[7:0]</obj_property>
       <obj_property name="ObjectShortName">fifoout[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/fifovalid" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/fifovalid">
       <obj_property name="ElementShortName">fifovalid</obj_property>
       <obj_property name="ObjectShortName">fifovalid</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/fifodatacount" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/fifodatacount">
       <obj_property name="ElementShortName">fifodatacount[10:0]</obj_property>
       <obj_property name="ObjectShortName">fifodatacount[10:0]</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider176">
+   <wvobject fp_name="divider176" type="divider">
       <obj_property name="label">CPU</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#FF0000</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/reset" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/clock" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/clock">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/cpustate" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/cpustate">
       <obj_property name="ElementShortName">cpustate[10:0]</obj_property>
       <obj_property name="ObjectShortName">cpustate[10:0]</obj_property>
       <obj_property name="CustomSignalColor">#E0FFFF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/fullinstruction" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/fullinstruction">
       <obj_property name="ElementShortName">fullinstruction[31:0]</obj_property>
       <obj_property name="ObjectShortName">fullinstruction[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/opcode" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/opcode">
       <obj_property name="ElementShortName">opcode[6:0]</obj_property>
       <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
       <obj_property name="CustomSignalColor">#800080</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/func3" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/func3">
       <obj_property name="ElementShortName">func3[2:0]</obj_property>
       <obj_property name="ObjectShortName">func3[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/func7" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/func7">
       <obj_property name="ElementShortName">func7[6:0]</obj_property>
       <obj_property name="ObjectShortName">func7[6:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/imm" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/imm">
       <obj_property name="ElementShortName">imm[31:0]</obj_property>
       <obj_property name="ObjectShortName">imm[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/PC" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/PC">
       <obj_property name="ElementShortName">PC[31:0]</obj_property>
       <obj_property name="ObjectShortName">PC[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/nextPC" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/nextPC">
       <obj_property name="ElementShortName">nextPC[31:0]</obj_property>
       <obj_property name="ObjectShortName">nextPC[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#FFD700</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/data" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/data">
       <obj_property name="ElementShortName">data[31:0]</obj_property>
       <obj_property name="ObjectShortName">data[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/memaddress" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/memaddress">
       <obj_property name="ElementShortName">memaddress[31:0]</obj_property>
       <obj_property name="ObjectShortName">memaddress[31:0]</obj_property>
       <obj_property name="CustomSignalColor">#0000FF</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/writeword" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/writeword">
       <obj_property name="ElementShortName">writeword[31:0]</obj_property>
       <obj_property name="ObjectShortName">writeword[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/mem_data" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/mem_data">
       <obj_property name="ElementShortName">mem_data[31:0]</obj_property>
       <obj_property name="ObjectShortName">mem_data[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/mem_writeena" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/mem_writeena">
       <obj_property name="ElementShortName">mem_writeena[3:0]</obj_property>
       <obj_property name="ObjectShortName">mem_writeena[3:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/chipselect" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/chipselect">
       <obj_property name="ElementShortName">chipselect</obj_property>
       <obj_property name="ObjectShortName">chipselect</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/ICACHEADDR" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHEADDR">
       <obj_property name="ElementShortName">ICACHEADDR[26:0]</obj_property>
       <obj_property name="ObjectShortName">ICACHEADDR[26:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/ICACHE" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHE">
       <obj_property name="ElementShortName">ICACHE[0:17][15:0]</obj_property>
       <obj_property name="ObjectShortName">ICACHE[0:17][15:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/ICACHECOUNTER" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHECOUNTER">
       <obj_property name="ElementShortName">ICACHECOUNTER[4:0]</obj_property>
       <obj_property name="ObjectShortName">ICACHECOUNTER[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/wren" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/wren">
       <obj_property name="ElementShortName">wren</obj_property>
       <obj_property name="ObjectShortName">wren</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluop" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluop">
       <obj_property name="ElementShortName">aluop[4:0]</obj_property>
       <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluout" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluout">
       <obj_property name="ElementShortName">aluout[31:0]</obj_property>
       <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/selectimmedasrval2" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/selectimmedasrval2">
       <obj_property name="ElementShortName">selectimmedasrval2</obj_property>
       <obj_property name="ObjectShortName">selectimmedasrval2</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rval2selector" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/rval2selector">
       <obj_property name="ElementShortName">rval2selector[31:0]</obj_property>
       <obj_property name="ObjectShortName">rval2selector[31:0]</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider477">
-      <obj_property name="label">REGISTERFILE</obj_property>
+   <wvobject fp_name="divider477" type="divider">
+      <obj_property name="label">INTREGS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="BkColor">#008080</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/reset" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/regs/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/clock" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/regs/clock">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/rs1" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rs1">
       <obj_property name="ElementShortName">rs1[4:0]</obj_property>
       <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/rs2" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rs2">
       <obj_property name="ElementShortName">rs2[4:0]</obj_property>
       <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rd" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rd">
       <obj_property name="ElementShortName">rd[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rval1" type="array">
-      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/rval2" type="array">
-      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/wren" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/regs/wren">
       <obj_property name="ElementShortName">wren</obj_property>
       <obj_property name="ObjectShortName">wren</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/datain" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/datain">
       <obj_property name="ElementShortName">datain[31:0]</obj_property>
       <obj_property name="ObjectShortName">datain[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/regs/registers" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rval1">
+      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rval2">
+      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/registers">
       <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
       <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider102">
-      <obj_property name="label">DECODER</obj_property>
+   <wvobject fp_name="divider2150" type="divider">
+      <obj_property name="label">FLOATREGS</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/clock" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/floatregs/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/floatregs/clock">
       <obj_property name="ElementShortName">clock</obj_property>
       <obj_property name="ObjectShortName">clock</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/reset" type="logic">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/instruction" type="array">
-      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
-      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/opcode" type="array">
-      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
-      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/aluop" type="array">
-      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
-      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rs1" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/rs1">
       <obj_property name="ElementShortName">rs1[4:0]</obj_property>
       <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rs2" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/rs2">
       <obj_property name="ElementShortName">rs2[4:0]</obj_property>
       <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/rd" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/rd">
       <obj_property name="ElementShortName">rd[4:0]</obj_property>
       <obj_property name="ObjectShortName">rd[4:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/func3" type="array">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/floatregs/wren">
+      <obj_property name="ElementShortName">wren</obj_property>
+      <obj_property name="ObjectShortName">wren</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/datain">
+      <obj_property name="ElementShortName">datain[31:0]</obj_property>
+      <obj_property name="ObjectShortName">datain[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/rval1">
+      <obj_property name="ElementShortName">rval1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/rval2">
+      <obj_property name="ElementShortName">rval2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/floatregs/registers">
+      <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
+      <obj_property name="ObjectShortName">registers[0:31][31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider102" type="divider">
+      <obj_property name="label">DECODER</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/idecode/clock">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/idecode/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/instruction">
+      <obj_property name="ElementShortName">instruction[31:0]</obj_property>
+      <obj_property name="ObjectShortName">instruction[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/opcode">
+      <obj_property name="ElementShortName">opcode[6:0]</obj_property>
+      <obj_property name="ObjectShortName">opcode[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/aluop">
+      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/rs1">
+      <obj_property name="ElementShortName">rs1[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs1[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/rs2">
+      <obj_property name="ElementShortName">rs2[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rs2[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/rd">
+      <obj_property name="ElementShortName">rd[4:0]</obj_property>
+      <obj_property name="ObjectShortName">rd[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/func3">
       <obj_property name="ElementShortName">func3[2:0]</obj_property>
       <obj_property name="ObjectShortName">func3[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/func7" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/func7">
       <obj_property name="ElementShortName">func7[6:0]</obj_property>
       <obj_property name="ObjectShortName">func7[6:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/imm" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/idecode/imm">
       <obj_property name="ElementShortName">imm[31:0]</obj_property>
       <obj_property name="ObjectShortName">imm[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/idecode/selectimmedasrval2" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/idecode/selectimmedasrval2">
       <obj_property name="ElementShortName">selectimmedasrval2</obj_property>
       <obj_property name="ObjectShortName">selectimmedasrval2</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider224">
+   <wvobject fp_name="divider224" type="divider">
       <obj_property name="label">ALU</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/aluout" type="array">
-      <obj_property name="ElementShortName">aluout[31:0]</obj_property>
-      <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/clock">
+      <obj_property name="ElementShortName">clock</obj_property>
+      <obj_property name="ObjectShortName">clock</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/val1" type="array">
-      <obj_property name="ElementShortName">val1[31:0]</obj_property>
-      <obj_property name="ObjectShortName">val1[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/val2" type="array">
-      <obj_property name="ElementShortName">val2[31:0]</obj_property>
-      <obj_property name="ObjectShortName">val2[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/alustall">
+      <obj_property name="ElementShortName">alustall</obj_property>
+      <obj_property name="ObjectShortName">alustall</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/aluop" type="array">
-      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
-      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject type="divider" fp_name="divider145">
-      <obj_property name="label">multiplier</obj_property>
-      <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/themul/func3" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/func3">
       <obj_property name="ElementShortName">func3[2:0]</obj_property>
       <obj_property name="ObjectShortName">func3[2:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/themul/A" type="array">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/divstart">
+      <obj_property name="ElementShortName">divstart</obj_property>
+      <obj_property name="ObjectShortName">divstart</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/aluop">
+      <obj_property name="ElementShortName">aluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">aluop[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/val1">
+      <obj_property name="ElementShortName">val1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">val1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/val2">
+      <obj_property name="ElementShortName">val2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">val2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/aluout">
+      <obj_property name="ElementShortName">aluout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluout[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/fval1">
+      <obj_property name="ElementShortName">fval1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fval1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/fval2">
+      <obj_property name="ElementShortName">fval2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">fval2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/fdivstart">
+      <obj_property name="ElementShortName">fdivstart</obj_property>
+      <obj_property name="ObjectShortName">fdivstart</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/faluop">
+      <obj_property name="ElementShortName">faluop[4:0]</obj_property>
+      <obj_property name="ObjectShortName">faluop[4:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/FADDResult">
+      <obj_property name="ElementShortName">FADDResult[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FADDResult[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/FMULResult">
+      <obj_property name="ElementShortName">FMULResult[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FMULResult[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/FDIVResult">
+      <obj_property name="ElementShortName">FDIVResult[31:0]</obj_property>
+      <obj_property name="ObjectShortName">FDIVResult[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/faluout">
+      <obj_property name="ElementShortName">faluout[31:0]</obj_property>
+      <obj_property name="ObjectShortName">faluout[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider145" type="divider">
+      <obj_property name="label">multiplier</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/themul/func3">
+      <obj_property name="ElementShortName">func3[2:0]</obj_property>
+      <obj_property name="ObjectShortName">func3[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/themul/A">
       <obj_property name="ElementShortName">A[31:0]</obj_property>
       <obj_property name="ObjectShortName">A[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/themul/B" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/themul/B">
       <obj_property name="ElementShortName">B[31:0]</obj_property>
       <obj_property name="ObjectShortName">B[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/themul/multiplier_result" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/themul/multiplier_result">
       <obj_property name="ElementShortName">multiplier_result[31:0]</obj_property>
       <obj_property name="ObjectShortName">multiplier_result[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/themul/result" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/themul/result">
       <obj_property name="ElementShortName">result[63:0]</obj_property>
       <obj_property name="ObjectShortName">result[63:0]</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider136">
+   <wvobject fp_name="divider136" type="divider">
       <obj_property name="label">divider</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/clk" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/reset" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/start" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/start">
       <obj_property name="ElementShortName">start</obj_property>
       <obj_property name="ObjectShortName">start</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/busy" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/busy">
       <obj_property name="ElementShortName">busy</obj_property>
       <obj_property name="ObjectShortName">busy</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/dbz" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/dbz">
       <obj_property name="ElementShortName">dbz</obj_property>
       <obj_property name="ObjectShortName">dbz</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/divdone" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/divdone">
       <obj_property name="ElementShortName">divdone</obj_property>
       <obj_property name="ObjectShortName">divdone</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/x" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/x">
       <obj_property name="ElementShortName">x[31:0]</obj_property>
       <obj_property name="ObjectShortName">x[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/y" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/y">
       <obj_property name="ElementShortName">y[31:0]</obj_property>
       <obj_property name="ObjectShortName">y[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/q" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/q">
       <obj_property name="ElementShortName">q[31:0]</obj_property>
       <obj_property name="ObjectShortName">q[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/r" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/r">
       <obj_property name="ElementShortName">r[31:0]</obj_property>
       <obj_property name="ObjectShortName">r[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_R" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_R">
       <obj_property name="ElementShortName">div_R[31:0]</obj_property>
       <obj_property name="ObjectShortName">div_R[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/prev_Q" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/prev_Q">
       <obj_property name="ElementShortName">prev_Q[31:0]</obj_property>
       <obj_property name="ObjectShortName">prev_Q[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/prev_R" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/prev_R">
       <obj_property name="ElementShortName">prev_R[31:0]</obj_property>
       <obj_property name="ObjectShortName">prev_R[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_D" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_D">
       <obj_property name="ElementShortName">div_D[31:0]</obj_property>
       <obj_property name="ObjectShortName">div_D[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_Q" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_Q">
       <obj_property name="ElementShortName">div_Q[31:0]</obj_property>
       <obj_property name="ObjectShortName">div_Q[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_state" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/thediv/div_state">
       <obj_property name="ElementShortName">div_state[1:0]</obj_property>
       <obj_property name="ObjectShortName">div_state[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/signflip" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/signflip">
       <obj_property name="ElementShortName">signflip</obj_property>
       <obj_property name="ObjectShortName">signflip</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/riscvcore/aluunit/thediv/divsigned" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/thediv/divsigned">
       <obj_property name="ElementShortName">divsigned</obj_property>
       <obj_property name="ObjectShortName">divsigned</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider104">
-      <obj_property name="label">VIDEO</obj_property>
+   <wvobject fp_name="divider144" type="divider">
+      <obj_property name="label">FDIV</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/clk" type="logic">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/a_i">
+      <obj_property name="ElementShortName">a_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">a_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/b_i">
+      <obj_property name="ElementShortName">b_i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">b_i[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/rnd_i">
+      <obj_property name="ElementShortName">rnd_i[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rnd_i[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/strobe_i">
+      <obj_property name="ElementShortName">strobe_i</obj_property>
+      <obj_property name="ObjectShortName">strobe_i</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xExp_o">
+      <obj_property name="ElementShortName">xExp_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">xExp_o[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/tailZeroCnt_o">
+      <obj_property name="ElementShortName">tailZeroCnt_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tailZeroCnt_o[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xSig_o">
+      <obj_property name="ElementShortName">xSig_o[25:0]</obj_property>
+      <obj_property name="ObjectShortName">xSig_o[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xMidStatus_o">
+      <obj_property name="ElementShortName">xMidStatus_o[5:0]</obj_property>
+      <obj_property name="ObjectShortName">xMidStatus_o[5:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xStatus_fast_o">
+      <obj_property name="ElementShortName">xStatus_fast_o[7:0]</obj_property>
+      <obj_property name="ObjectShortName">xStatus_fast_o[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/x_fast_o">
+      <obj_property name="ElementShortName">x_fast_o[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x_fast_o[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/x_use_fast">
+      <obj_property name="ElementShortName">x_use_fast</obj_property>
+      <obj_property name="ObjectShortName">x_use_fast</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/rnd_o">
+      <obj_property name="ElementShortName">rnd_o[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rnd_o[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_N">
+      <obj_property name="ElementShortName">idiv_N[25:0]</obj_property>
+      <obj_property name="ObjectShortName">idiv_N[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_D">
+      <obj_property name="ElementShortName">idiv_D[25:0]</obj_property>
+      <obj_property name="ObjectShortName">idiv_D[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_strobe">
+      <obj_property name="ElementShortName">idiv_strobe</obj_property>
+      <obj_property name="ObjectShortName">idiv_strobe</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_Quo">
+      <obj_property name="ElementShortName">idiv_Quo[25:0]</obj_property>
+      <obj_property name="ObjectShortName">idiv_Quo[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_Rem">
+      <obj_property name="ElementShortName">idiv_Rem[25:0]</obj_property>
+      <obj_property name="ObjectShortName">idiv_Rem[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_done">
+      <obj_property name="ElementShortName">idiv_done</obj_property>
+      <obj_property name="ObjectShortName">idiv_done</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/idiv_ready">
+      <obj_property name="ElementShortName">idiv_ready</obj_property>
+      <obj_property name="ObjectShortName">idiv_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/done_o">
+      <obj_property name="ElementShortName">done_o</obj_property>
+      <obj_property name="ObjectShortName">done_o</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/ready_o">
+      <obj_property name="ElementShortName">ready_o</obj_property>
+      <obj_property name="ObjectShortName">ready_o</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/reset" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/vga_h_sync" type="logic">
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/rnd_r">
+      <obj_property name="ElementShortName">rnd_r[2:0]</obj_property>
+      <obj_property name="ObjectShortName">rnd_r[2:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/aExp_r">
+      <obj_property name="ElementShortName">aExp_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">aExp_r[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/aSig_r">
+      <obj_property name="ElementShortName">aSig_r[22:0]</obj_property>
+      <obj_property name="ObjectShortName">aSig_r[22:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/aSign_r">
+      <obj_property name="ElementShortName">aSign_r</obj_property>
+      <obj_property name="ObjectShortName">aSign_r</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/bExp_r">
+      <obj_property name="ElementShortName">bExp_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">bExp_r[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/bSig_r">
+      <obj_property name="ElementShortName">bSig_r[22:0]</obj_property>
+      <obj_property name="ObjectShortName">bSig_r[22:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/bSign_r">
+      <obj_property name="ElementShortName">bSign_r</obj_property>
+      <obj_property name="ObjectShortName">bSign_r</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xExp">
+      <obj_property name="ElementShortName">xExp[9:0]</obj_property>
+      <obj_property name="ObjectShortName">xExp[9:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xExp_r">
+      <obj_property name="ElementShortName">xExp_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">xExp_r[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/tailZeroCnt_r">
+      <obj_property name="ElementShortName">tailZeroCnt_r[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tailZeroCnt_r[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/status_fast">
+      <obj_property name="ElementShortName">status_fast[7:0]</obj_property>
+      <obj_property name="ObjectShortName">status_fast[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/x_fast">
+      <obj_property name="ElementShortName">x_fast[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x_fast[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/status_reg">
+      <obj_property name="ElementShortName">status_reg[7:0]</obj_property>
+      <obj_property name="ObjectShortName">status_reg[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/x_reg">
+      <obj_property name="ElementShortName">x_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">x_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/strobe_r">
+      <obj_property name="ElementShortName">strobe_r</obj_property>
+      <obj_property name="ObjectShortName">strobe_r</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/sign">
+      <obj_property name="ElementShortName">sign</obj_property>
+      <obj_property name="ObjectShortName">sign</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isNaN">
+      <obj_property name="ElementShortName">isNaN</obj_property>
+      <obj_property name="ObjectShortName">isNaN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/newNaN">
+      <obj_property name="ElementShortName">newNaN</obj_property>
+      <obj_property name="ObjectShortName">newNaN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isINF">
+      <obj_property name="ElementShortName">isINF</obj_property>
+      <obj_property name="ObjectShortName">isINF</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isInvalid">
+      <obj_property name="ElementShortName">isInvalid</obj_property>
+      <obj_property name="ObjectShortName">isInvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isZero">
+      <obj_property name="ElementShortName">isZero</obj_property>
+      <obj_property name="ObjectShortName">isZero</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isDivByZero">
+      <obj_property name="ElementShortName">isDivByZero</obj_property>
+      <obj_property name="ObjectShortName">isDivByZero</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/isOne">
+      <obj_property name="ElementShortName">isOne</obj_property>
+      <obj_property name="ObjectShortName">isOne</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/useA">
+      <obj_property name="ElementShortName">useA</obj_property>
+      <obj_property name="ObjectShortName">useA</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/useB">
+      <obj_property name="ElementShortName">useB</obj_property>
+      <obj_property name="ObjectShortName">useB</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/toInf">
+      <obj_property name="ElementShortName">toInf</obj_property>
+      <obj_property name="ObjectShortName">toInf</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/use_fast">
+      <obj_property name="ElementShortName">use_fast</obj_property>
+      <obj_property name="ObjectShortName">use_fast</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/use_fast_r">
+      <obj_property name="ElementShortName">use_fast_r</obj_property>
+      <obj_property name="ObjectShortName">use_fast_r</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/rightShiftA">
+      <obj_property name="ElementShortName">rightShiftA</obj_property>
+      <obj_property name="ObjectShortName">rightShiftA</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/Quo">
+      <obj_property name="ElementShortName">Quo[25:0]</obj_property>
+      <obj_property name="ObjectShortName">Quo[25:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/stickyBit">
+      <obj_property name="ElementShortName">stickyBit</obj_property>
+      <obj_property name="ObjectShortName">stickyBit</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/roundBit">
+      <obj_property name="ElementShortName">roundBit</obj_property>
+      <obj_property name="ObjectShortName">roundBit</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluunit/float_divider/xSig">
+      <obj_property name="ElementShortName">xSig[24:0]</obj_property>
+      <obj_property name="ObjectShortName">xSig[24:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="divider104" type="divider">
+      <obj_property name="label">VIDEO</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/reset">
+      <obj_property name="ElementShortName">reset</obj_property>
+      <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/vga_h_sync">
       <obj_property name="ElementShortName">vga_h_sync</obj_property>
       <obj_property name="ObjectShortName">vga_h_sync</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/vga_v_sync" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/vga_v_sync">
       <obj_property name="ElementShortName">vga_v_sync</obj_property>
       <obj_property name="ObjectShortName">vga_v_sync</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/inDisplayArea" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/inDisplayArea">
       <obj_property name="ElementShortName">inDisplayArea</obj_property>
       <obj_property name="ObjectShortName">inDisplayArea</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/pixelX" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/pixelX">
       <obj_property name="ElementShortName">pixelX[9:0]</obj_property>
       <obj_property name="ObjectShortName">pixelX[9:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/pixelY" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/pixelY">
       <obj_property name="ElementShortName">pixelY[9:0]</obj_property>
       <obj_property name="ObjectShortName">pixelY[9:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/videoreadaddress" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/videoreadaddress">
       <obj_property name="ElementShortName">videoreadaddress[13:0]</obj_property>
       <obj_property name="ObjectShortName">videoreadaddress[13:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vramdataout" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vramdataout">
       <obj_property name="ElementShortName">vramdataout[31:0]</obj_property>
       <obj_property name="ObjectShortName">vramdataout[31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/cacheaddress" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/cacheaddress">
       <obj_property name="ElementShortName">cacheaddress[5:0]</obj_property>
       <obj_property name="ObjectShortName">cacheaddress[5:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/cacherow" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/cacherow">
       <obj_property name="ElementShortName">cacherow</obj_property>
       <obj_property name="ObjectShortName">cacherow</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/scanlinecache" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/scanlinecache">
       <obj_property name="ElementShortName">scanlinecache[0:63][31:0]</obj_property>
       <obj_property name="ObjectShortName">scanlinecache[0:63][31:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/videobyteselect" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/videobyteselect">
       <obj_property name="ElementShortName">videobyteselect[1:0]</obj_property>
       <obj_property name="ObjectShortName">videobyteselect[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/CounterX" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/CounterX">
       <obj_property name="ElementShortName">CounterX[9:0]</obj_property>
       <obj_property name="ObjectShortName">CounterX[9:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/CounterY" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/vgaout/CounterY">
       <obj_property name="ElementShortName">CounterY[9:0]</obj_property>
       <obj_property name="ObjectShortName">CounterY[9:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/vga_HS" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/vga_HS">
       <obj_property name="ElementShortName">vga_HS</obj_property>
       <obj_property name="ObjectShortName">vga_HS</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/vga_VS" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/vga_VS">
       <obj_property name="ElementShortName">vga_VS</obj_property>
       <obj_property name="ObjectShortName">vga_VS</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/CounterXmaxed" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/CounterXmaxed">
       <obj_property name="ElementShortName">CounterXmaxed</obj_property>
       <obj_property name="ObjectShortName">CounterXmaxed</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/vgaout/CounterYmaxed" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/vgaout/CounterYmaxed">
       <obj_property name="ElementShortName">CounterYmaxed</obj_property>
       <obj_property name="ObjectShortName">CounterYmaxed</obj_property>
    </wvobject>
-   <wvobject type="divider" fp_name="divider113">
+   <wvobject fp_name="divider113" type="divider">
       <obj_property name="label">SDCARD</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_Rst_L" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/i_Rst_L">
       <obj_property name="ElementShortName">i_Rst_L</obj_property>
       <obj_property name="ObjectShortName">i_Rst_L</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_Clk" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/i_Clk">
       <obj_property name="ElementShortName">i_Clk</obj_property>
       <obj_property name="ObjectShortName">i_Clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_Count" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/i_TX_Count">
       <obj_property name="ElementShortName">i_TX_Count[1:0]</obj_property>
       <obj_property name="ObjectShortName">i_TX_Count[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_Byte" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/i_TX_Byte">
       <obj_property name="ElementShortName">i_TX_Byte[7:0]</obj_property>
       <obj_property name="ObjectShortName">i_TX_Byte[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_TX_DV" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/i_TX_DV">
       <obj_property name="ElementShortName">i_TX_DV</obj_property>
       <obj_property name="ObjectShortName">i_TX_DV</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_TX_Ready" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/o_TX_Ready">
       <obj_property name="ElementShortName">o_TX_Ready</obj_property>
       <obj_property name="ObjectShortName">o_TX_Ready</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_Count" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/o_RX_Count">
       <obj_property name="ElementShortName">o_RX_Count[1:0]</obj_property>
       <obj_property name="ObjectShortName">o_RX_Count[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_DV" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/o_RX_DV">
       <obj_property name="ElementShortName">o_RX_DV</obj_property>
       <obj_property name="ObjectShortName">o_RX_DV</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_RX_Byte" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/o_RX_Byte">
       <obj_property name="ElementShortName">o_RX_Byte[7:0]</obj_property>
       <obj_property name="ObjectShortName">o_RX_Byte[7:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_Clk" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/o_SPI_Clk">
       <obj_property name="ElementShortName">o_SPI_Clk</obj_property>
       <obj_property name="ObjectShortName">o_SPI_Clk</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/i_SPI_MISO" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/i_SPI_MISO">
       <obj_property name="ElementShortName">i_SPI_MISO</obj_property>
       <obj_property name="ObjectShortName">i_SPI_MISO</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_MOSI" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/o_SPI_MOSI">
       <obj_property name="ElementShortName">o_SPI_MOSI</obj_property>
       <obj_property name="ObjectShortName">o_SPI_MOSI</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/o_SPI_CS_n" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/o_SPI_CS_n">
       <obj_property name="ElementShortName">o_SPI_CS_n</obj_property>
       <obj_property name="ObjectShortName">o_SPI_CS_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/r_SM_CS" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/r_SM_CS">
       <obj_property name="ElementShortName">r_SM_CS[1:0]</obj_property>
       <obj_property name="ObjectShortName">r_SM_CS[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/r_CS_n" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/r_CS_n">
       <obj_property name="ElementShortName">r_CS_n</obj_property>
       <obj_property name="ObjectShortName">r_CS_n</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/r_CS_Inactive_Count" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/r_CS_Inactive_Count">
       <obj_property name="ElementShortName">r_CS_Inactive_Count[-1:0]</obj_property>
       <obj_property name="ObjectShortName">r_CS_Inactive_Count[-1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/r_TX_Count" type="array">
+   <wvobject type="array" fp_name="/ecrv32top/SDCardController/r_TX_Count">
       <obj_property name="ElementShortName">r_TX_Count[1:0]</obj_property>
       <obj_property name="ObjectShortName">r_TX_Count[1:0]</obj_property>
    </wvobject>
-   <wvobject fp_name="/ecrv32top/SDCardController/w_Master_Ready" type="logic">
+   <wvobject type="logic" fp_name="/ecrv32top/SDCardController/w_Master_Ready">
       <obj_property name="ElementShortName">w_Master_Ready</obj_property>
       <obj_property name="ObjectShortName">w_Master_Ready</obj_property>
    </wvobject>
