@@ -1,4 +1,5 @@
-// RV32 I			[6:0]		[14:12] [31:25] [24:20]
+// ======================== RV32 I ==============================
+//       			[6:0]		[14:12] [31:25] [24:20]
 `define LUI			7'b0110111  //+
 `define AUIPC		7'b0010111  //+
 `define JAL			7'b1101111  //+
@@ -39,8 +40,10 @@
 `define FENCE		7'b0001111	// 000
 `define ECALL		7'b1110011	// 000  0000000  00000
 `define EBREAK		7'b1110011	// 000  0000000  00001
+// ==============================================================
 
-// RV32 M			[6:0]		[14:12] [31:25] [24:20]
+// ======================== RV32 M ==============================
+//       			[6:0]		[14:12] [31:25] [24:20]
 `define MUL			7'b0110011	// 000  0000001
 `define MULH		7'b0110011	// 001  0000001
 `define MULHSU		7'b0110011	// 010  0000001
@@ -49,8 +52,39 @@
 `define DIVU		7'b0110011	// 101  0000001
 `define REM			7'b0110011	// 110  0000001
 `define REMU		7'b0110011	// 111  0000001
+// ==============================================================
 
-// RV32 C
+// ======================== RV32 F ==============================
+`define FLW         7'b0000111
+`define FSW         7'b0100111
+`define FMADD       7'b1000011
+`define FMSUB       7'b1000111
+`define FNMSUB      7'b1001011
+`define FNMADD      7'b1001111
+//                                [31:25]    [24:20]    [14:12]
+`define FADD        7'b1010011 // 0000000    
+`define FSUB        7'b1010011 // 0000100    
+`define FMUL        7'b1010011 // 0001000    
+`define FDIV        7'b1010011 // 0001100    
+`define FSQRT       7'b1010011 // 0101100    00000
+`define FSGNJ       7'b1010011 // 0010000               000
+`define FSGNJN      7'b1010011 // 0010000               001
+`define FSGNJX      7'b1010011 // 0010000               010
+`define FMIN        7'b1010011 // 0010100               000
+`define FMAX        7'b1010011 // 0010100               001
+`define FCVTWS      7'b1010011 // 1100000    00000
+`define FCVTWUS     7'b1010011 // 1100000    00001
+`define FMVXW       7'b1010011 // 1110000    00000      000
+`define FEQ         7'b1010011 // 1010000               010
+`define FLT         7'b1010011 // 1010000               001
+`define FLE         7'b1010011 // 1010000               000
+`define FCLASS      7'b1010011 // 1110000    00000      001
+`define FCVTSW      7'b1010011 // 1101000    00000
+`define FCVTSWU     7'b1010011 // 1101000    00001
+`define FMVWX       7'b1010011 // 1111000    00000      000
+// ==============================================================
+
+// ======================== RV32 C ==============================
 // Quadrant 0
 `define CADDI4SPN	5'b00000 // RES, nzuimm=0 +
 //`define CFLD		5'b00100 // 32/64
@@ -100,19 +134,30 @@
 `define CSWSP		5'b11010 //+
 //`define CFSWSP		5'b11110
 //`define CSDSP		5'b11110
+// ==============================================================
 
-`define OPCODE_OP_IMM 	7'b0010011
-`define OPCODE_OP		7'b0110011
-`define OPCODE_LUI		7'b0110111
-`define OPCODE_STORE	7'b0100011
-`define OPCODE_LOAD		7'b0000011
-`define OPCODE_JAL		7'b1101111
-`define OPCODE_JALR		7'b1100111
-`define OPCODE_BRANCH	7'b1100011
-`define OPCODE_AUPC		7'b0010111
-`define OPCODE_FENCE	7'b0001111
-`define OPCODE_SYSTEM	7'b1110011
+// ======================== GROUPS ==============================
+`define OPCODE_OP_IMM 	    7'b0010011
+`define OPCODE_OP		    7'b0110011
+`define OPCODE_LUI		    7'b0110111
+`define OPCODE_STORE	    7'b0100011
+`define OPCODE_LOAD		    7'b0000011
+`define OPCODE_JAL		    7'b1101111
+`define OPCODE_JALR		    7'b1100111
+`define OPCODE_BRANCH	    7'b1100011
+`define OPCODE_AUPC		    7'b0010111
+`define OPCODE_FENCE	    7'b0001111
+`define OPCODE_SYSTEM	    7'b1110011
+`define OPCODE_FLOAT_OP     7'b1010011 // ~
+`define OPCODE_FLOAT_LD     7'b0000111 // +
+`define OPCODE_FLOAT_ST     7'b0100111 // +
+`define OPCODE_FLOAT_MADD   7'b1000011 // 
+`define OPCODE_FLOAT_MSUB   7'b1000111 // 
+`define OPCODE_FLOAT_NMSUB  7'b1001011 // 
+`define OPCODE_FLOAT_NMADD  7'b1001111 // 
+// ==============================================================
 
+// ======================== SUBGROUPS ===========================
 `define F3_BEQ		3'b000
 `define F3_BNE		3'b001
 `define F3_BLT		3'b100
@@ -147,3 +192,4 @@
 `define F3_SB		3'b000
 `define F3_SH		3'b001
 `define F3_SW		3'b010
+// ==============================================================

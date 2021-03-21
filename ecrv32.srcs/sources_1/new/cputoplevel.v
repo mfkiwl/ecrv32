@@ -47,13 +47,21 @@ wire [4:0] rd;
 wire [2:0] func3;
 wire [6:0] func7;
 
-// Decoded bits and outputs
+// Register file related wires
 reg wren = 1'b0;
 reg [31:0] data = 32'd0;
-wire [4:0] aluop;
 wire [31:0] rval1;
 wire [31:0] rval2;
+reg fwren = 1'b0;
+wire [31:0] frval1;
+wire [31:0] frval2;
+reg floatmemop = 1'b0;
+
+// ALU/immediate and decoder wires
+wire [4:0] aluop;
+wire [4:0] faluop;
 wire [31:0] aluout;
+wire [31:0] faluout;
 wire [31:0] imm;
 wire selectimmedasrval2;
 wire [31:0] fullinstruction;
@@ -65,6 +73,7 @@ decoder idecode(
 	.instruction(fullinstruction),
 	.opcode(opcode),
 	.aluop(aluop),
+	.faluop(faluop),
 	.rs1(rs1),
 	.rs2(rs2),
 	.rd(rd),
@@ -73,6 +82,7 @@ decoder idecode(
 	.imm(imm),
 	.selectimmedasrval2(selectimmedasrval2) );
 
+// Integer register file
 registerfile regs(
 	.reset(reset),
 	.clock(clock),
@@ -80,11 +90,23 @@ registerfile regs(
 	.rs2(rs2),
 	.rd(rd),
 	.wren(wren),
-	.datain(data), // TODO: select the correct input (imm or PC+? or alu_out)
+	.datain(data),
 	.rval1(rval1),
 	.rval2(rval2) );
 
-// Selectors / precalcs / decompressor
+// Floating point register file
+registerfile floatregs(
+	.reset(reset),
+	.clock(clock),
+	.rs1(rs1),
+	.rs2(rs2),
+	.rd(rd),
+	.wren(fwren),
+	.datain(data),
+	.rval1(frval1),
+	.rval2(frval2) );
+
+// Selectors / precalcs / instruction decompressor related
 wire [31:0] rval2selector = selectimmedasrval2 ? imm : rval2;
 wire [31:0] incrementedpc = is_compressed ? PC + 32'd2 : PC + 32'd4;
 wire [31:0] incrementedbyimmpc = PC + imm;
@@ -95,19 +117,27 @@ wire [15:0] instrhi = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}+5'd1] : 16'h0000;
 wire [15:0] instrlo = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}] : {25'd0,`ADDI};
 instructiondecompressor rv32cdecompress(.instr_lowword(instrlo), .instr_highword(instrhi), .is_compressed(is_compressed), .fullinstr(fullinstruction));
 
+// ALU
 wire alustall;
 wire divstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH when cache is not missed
+wire fdivstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (faluop==`ALU_FDIV); // High only during FETCH when cache is not missed
 ALU aluunit(
 	.reset(reset),
 	.clock(clock),
 	.divstart(divstart),
+	.fdivstart(fdivstart),
 	.aluout(aluout),
+	.faluout(faluout),
 	.func3(func3),
+	.fval1(frval1),
+	.fval2(frval2),
 	.val1(rval1),
 	.val2(rval2selector), // Either source register 2 or immediate
 	.aluop(aluop),
+	.faluop(faluop),
 	.alustall(alustall) );
 	
+// The CPU: central state machine
 always @(posedge clock) begin
 	if (reset) begin
 
@@ -120,22 +150,36 @@ always @(posedge clock) begin
 		case (1'b1) // synthesis parallel_case full_case
 
 			cpustate[CPUINIT] : begin
-				PC <= 32'h000FA00; // Reset vector
+
+                // Program counter
+				PC <= 32'h000FA00; // Point at reset vector by default (bootloader placed here by default)
 				nextPC <= 32'd0;
+
+                // Internal block memory access
 				memaddress <= 32'd0;
 				mem_writeena <= 4'b0000;
 				writeword <= 32'd0;
 				chipselect <= 1'b0;
-				cpustate[CPUFETCH] <= 1'b1;
-				wren <= 1'b0;
+				floatmemop <= 1'b0;
 				data <= 32'd0;
+
+                // Integer register control
+				wren <= 1'b0;
+                // Float register control
+				fwren <= 1'b0;
+
+                // UART/SPI
 				uartsend <= 1'b0;
 				uartbyte <= 8'd0;
 				fifore <= 1'b0;
     			spisend <= 1'b0;
     			spioutput <= 8'd0;
+    			
+    			// Instruction cache
 				ICACHEADDR <= 27'hF; 			// Invalid cache address
 				ICACHECOUNTER <= 6'd0;
+				
+				// NOTE: Not clearing instruction cache for now
 				//ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
 				//ICACHE[ 1] <= 16'h0000;	// 0x02  -> 0x1
 				//ICACHE[ 2] <= 16'h0000;	// 0x04  -> 0x2
@@ -155,6 +199,8 @@ always @(posedge clock) begin
 				// TODO: Spare for misaligned instructions
 				//ICACHE[16] <= 16'h0000;
 				//ICACHE[17] <= 16'h0000;
+
+				cpustate[CPUFETCH] <= 1'b1;
 			end
 			
 			cpustate[CPUFETCH] : begin
@@ -234,6 +280,7 @@ always @(posedge clock) begin
 			end
 			
 			cpustate[CPUEXEC] : begin
+			    floatmemop <= 1'b0;
 				case (opcode)
 					`OPCODE_OP, `OPCODE_OP_IMM: begin
 						wren <= 1'b1;
@@ -247,9 +294,23 @@ always @(posedge clock) begin
 						nextPC <= incrementedpc;
 						cpustate[CPULOADWAIT] <= 1'b1;
 					end
+					`OPCODE_FLOAT_LD: begin
+						memaddress <= rval1plusimm;
+						chipselect <= 1'b0;
+						nextPC <= incrementedpc;
+						floatmemop <= 1'b1;
+						cpustate[CPULOADWAIT] <= 1'b1;
+					end
 					`OPCODE_STORE: begin
 						data <= rval2;
 						memaddress <= rval1plusimm;
+						nextPC <= incrementedpc;
+						cpustate[CPUSTORE] <= 1'b1;
+					end
+					`OPCODE_FLOAT_ST: begin
+						data <= frval2;
+						memaddress <= rval1plusimm;
+						floatmemop <= 1'b1;
 						nextPC <= incrementedpc;
 						cpustate[CPUSTORE] <= 1'b1;
 					end
@@ -263,6 +324,12 @@ always @(posedge clock) begin
 						nextPC <= aluout[0] ? incrementedbyimmpc : incrementedpc;
 						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
+					`OPCODE_FLOAT_OP: begin
+						fwren <= 1'b1;
+						data <= faluout;
+						nextPC <= incrementedpc;
+						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                    end
 					default: begin
 						// These are illegal / unhandled or non-op instructions, jump back to reset vector
 						nextPC <= 32'h000FA00;
@@ -312,98 +379,112 @@ always @(posedge clock) begin
 			end
 
 			cpustate[CPULOADCOMPLETE]: begin
-				case (func3) // lb:000 lh:001 lw:010 lbu:100 lhu:101
-					3'b000: begin
-						// Byte alignment based on {address[1:0]} with sign extension
-						case (memaddress[1:0]) // synthesis full_case
-							2'b11: begin data <= {{24{mem_data[31]}},mem_data[31:24]}; end
-							2'b10: begin data <= {{24{mem_data[23]}},mem_data[23:16]}; end
-							2'b01: begin data <= {{24{mem_data[15]}},mem_data[15:8]}; end
-							2'b00: begin data <= {{24{mem_data[7]}},mem_data[7:0]}; end
-						endcase
-					end
-					3'b001: begin
-						// short alignment based on {address[1],1'b0} with sign extension
-						case (memaddress[1]) // synthesis full_case
-							1'b1: begin data <= {{16{mem_data[31]}},mem_data[31:16]}; end
-							1'b0: begin data <= {{16{mem_data[15]}},mem_data[15:0]}; end
-						endcase
-					end
-					3'b010: begin
-						// Already aligned on read, regular DWORD read
-						data <= mem_data[31:0];
-					end
-					3'b100: begin
-						// Byte alignment based on {address[1:0]} with zero extension
-						case (memaddress[1:0]) // synthesis full_case
-							2'b11: begin data <= {24'd0, mem_data[31:24]}; end
-							2'b10: begin data <= {24'd0, mem_data[23:16]}; end
-							2'b01: begin data <= {24'd0, mem_data[15:8]}; end
-							2'b00: begin data <= {24'd0, mem_data[7:0]}; end
-						endcase
-					end
-					3'b101: begin
-						// short alignment based on {address[1],1'b0} with zero extension
-						case (memaddress[1]) // synthesis full_case
-							1'b1: begin data <= {16'd0,mem_data[31:16]}; end
-							1'b0: begin data <= {16'd0,mem_data[15:0]}; end
-						endcase
-					end
-					default: begin
-						// undefined mem op, TODO: Do we throw an exception, or just ignore it? Check specs.
-					end
-				endcase
-				wren <= 1'b1;
+				if (floatmemop == 1'b1) begin
+                    data <= mem_data[31:0];
+                    fwren <= 1'b1;
+				end else begin
+                    case (func3) // lb:000 lh:001 lw:010 lbu:100 lhu:101
+                        3'b000: begin
+                            // Byte alignment based on {address[1:0]} with sign extension
+                            case (memaddress[1:0]) // synthesis full_case
+                                2'b11: begin data <= {{24{mem_data[31]}},mem_data[31:24]}; end
+                                2'b10: begin data <= {{24{mem_data[23]}},mem_data[23:16]}; end
+                                2'b01: begin data <= {{24{mem_data[15]}},mem_data[15:8]}; end
+                                2'b00: begin data <= {{24{mem_data[7]}},mem_data[7:0]}; end
+                            endcase
+                        end
+                        3'b001: begin
+                            // short alignment based on {address[1],1'b0} with sign extension
+                            case (memaddress[1]) // synthesis full_case
+                                1'b1: begin data <= {{16{mem_data[31]}},mem_data[31:16]}; end
+                                1'b0: begin data <= {{16{mem_data[15]}},mem_data[15:0]}; end
+                            endcase
+                        end
+                        3'b010: begin
+                            // Already aligned on read, regular DWORD read
+                            data <= mem_data[31:0];
+                        end
+                        3'b100: begin
+                            // Byte alignment based on {address[1:0]} with zero extension
+                            case (memaddress[1:0]) // synthesis full_case
+                                2'b11: begin data <= {24'd0, mem_data[31:24]}; end
+                                2'b10: begin data <= {24'd0, mem_data[23:16]}; end
+                                2'b01: begin data <= {24'd0, mem_data[15:8]}; end
+                                2'b00: begin data <= {24'd0, mem_data[7:0]}; end
+                            endcase
+                        end
+                        3'b101: begin
+                            // short alignment based on {address[1],1'b0} with zero extension
+                            case (memaddress[1]) // synthesis full_case
+                                1'b1: begin data <= {16'd0,mem_data[31:16]}; end
+                                1'b0: begin data <= {16'd0,mem_data[15:0]}; end
+                            endcase
+                        end
+                        default: begin
+                            // undefined mem op, TODO: Do we throw an exception, or just ignore it? Check specs.
+                        end
+                    endcase
+                    wren <= 1'b1;
+                end
+
 				cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 			end
 			
 			cpustate[CPUSTORE]: begin
-				if (memaddress[31:28] == 4'b0100) begin // 0x40000000: UART OUT
-					if (~uarttxbusy) begin
-						uartbyte <= rval2[7:0]; // Always send lower byte only
-						uartsend <= 1'b1;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-					end else begin
-						cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock
-					end
-				end else if (memaddress[31:28] == 4'b0010) begin // 0x20000000: SPI OUT
-					if (sdtxready) begin
-						spioutput <= rval2[7:0]; // Always send lower byte only
-						spisend <= 1'b1;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-					end else begin
-						cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
-					end
-				end else begin
-					cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-					chipselect <= memaddress[31]; // 0x80000000: VRAM OUTPUT, other addresses are SYSRAM addresses
-					case (func3)
-						// Byte
-						3'b000: begin
-							case (memaddress[1:0]) // synthesis full_case
-								2'b11: begin mem_writeena <= 4'b1000; writeword <= {data[7:0], 24'd0}; end
-								2'b10: begin mem_writeena <= 4'b0100; writeword <= {8'd0, data[7:0], 16'd0}; end
-								2'b01: begin mem_writeena <= 4'b0010; writeword <= {16'd0, data[7:0], 8'd0}; end
-								2'b00: begin mem_writeena <= 4'b0001; writeword <= {24'd0, data[7:0]}; end
-							endcase
-						end
-						// Short
-						3'b001: begin
-							case (memaddress[1]) // synthesis full_case
-								1'b1: begin mem_writeena <= 4'b1100; writeword <= {data[15:0], 16'd0}; end
-								1'b0: begin mem_writeena <= 4'b0011; writeword <= {16'd0, data[15:0]}; end
-							endcase
-						end
-						// Word
-						default: begin
-							mem_writeena <= 4'b1111; writeword <= data;
-						end
-					endcase
+			    if (floatmemop == 1'b1) begin
+                    cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                    chipselect <= memaddress[31];
+                    mem_writeena <= 4'b1111;
+                    writeword <= data;
+                end else begin
+                    if (memaddress[31:28] == 4'b0100) begin // 0x40000000: UART OUT
+                        if (~uarttxbusy) begin
+                            uartbyte <= rval2[7:0]; // Always send lower byte only
+                            uartsend <= 1'b1;
+                            cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                        end else begin
+                            cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock
+                        end
+                    end else if (memaddress[31:28] == 4'b0010) begin // 0x20000000: SPI OUT
+                        if (sdtxready) begin
+                            spioutput <= rval2[7:0]; // Always send lower byte only
+                            spisend <= 1'b1;
+                            cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                        end else begin
+                            cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
+                        end
+                    end else begin
+                        cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                        chipselect <= memaddress[31]; // 0x80000000: VRAM OUTPUT, other addresses are SYSRAM addresses
+                        case (func3)
+                            // Byte
+                            3'b000: begin
+                                case (memaddress[1:0]) // synthesis full_case
+                                    2'b11: begin mem_writeena <= 4'b1000; writeword <= {data[7:0], 24'd0}; end
+                                    2'b10: begin mem_writeena <= 4'b0100; writeword <= {8'd0, data[7:0], 16'd0}; end
+                                    2'b01: begin mem_writeena <= 4'b0010; writeword <= {16'd0, data[7:0], 8'd0}; end
+                                    2'b00: begin mem_writeena <= 4'b0001; writeword <= {24'd0, data[7:0]}; end
+                                endcase
+                            end
+                            // Short
+                            3'b001: begin
+                                case (memaddress[1]) // synthesis full_case
+                                    1'b1: begin mem_writeena <= 4'b1100; writeword <= {data[15:0], 16'd0}; end
+                                    1'b0: begin mem_writeena <= 4'b0011; writeword <= {16'd0, data[15:0]}; end
+                                endcase
+                            end
+                            // Word
+                            default: begin
+                                mem_writeena <= 4'b1111; writeword <= data;
+                            end
+                        endcase
+                    end
 				end
 			end
 
 			cpustate[CPURETIREINSTRUCTION]: begin
 				wren <= 1'b0;
+				fwren <= 1'b0;
 				mem_writeena <= 4'b0000;
 				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
 				uartsend <= 1'b0;
