@@ -56,7 +56,7 @@ always @(posedge clock) begin
 	end
 end
 
-assign rval1 = registers[rs1];
-assign rval2 = registers[rs2];
+assign rval1 = rs1==0 ? 32'd0 : registers[rs1];
+assign rval2 = rs2==0 ? 32'd0 : registers[rs2];
 
 endmodule

@@ -24,17 +24,17 @@ module cputoplevel(
     input wire [7:0] spiinput);
 
 // Instruction cache
-reg [26:0] ICACHEADDR = 27'hF;			// Truncated lower bits
-reg [15:0] ICACHE[0:17];				// Cached instruction words, indexed using lower bits of IP for 16x16bit word entries plus 2x16bit spare for odd instruction alignment
-reg [4:0] ICACHECOUNTER = 5'd0;			// Cache load counter (count 0 to 7, high bit set at 8th 32bit word read)
+reg [26:0] ICACHEADDR;		// Truncated lower bits
+reg [15:0] ICACHE[0:17];	// Cached instruction words, indexed using lower bits of IP for 16x16bit word entries plus 2x16bit spare for odd instruction alignment
+reg [4:0] ICACHECOUNTER;	// Cache load counter (count 0 to 7, high bit set at 8th 32bit word read)
 
 // Cpu state one-hot tracking
-reg [10:0] cpustate = `CPUINIT_MASK;
+reg [9:0] cpustate;
 wire [10:0] nextstage;
 
 // Program counter
-reg [31:0] PC = 32'h000FA00;
-reg [31:0] nextPC = 32'd0;
+reg [31:0] PC;
+reg [31:0] nextPC;
 
 // Instruction decomposition
 wire [6:0] opcode;
@@ -46,8 +46,8 @@ wire [6:0] func7;
 
 // Register file related wires
 wire wren;
-reg registerWriteEnable = 1'b0;
-reg [31:0] data = 32'd0;
+reg registerWriteEnable;
+reg [31:0] data;
 wire [31:0] rval1;
 wire [31:0] rval2;
 
@@ -118,63 +118,37 @@ ALU aluunit(
 always @(posedge clock) begin
 	if (reset) begin
 
-		cpustate <= `CPUINIT_MASK;
+		// Program counter
+		PC <= 32'h000FA00; // Point at reset vector by default (bootloader placed here by default)
+		//nextPC <= 32'd0;
+
+		// Internal block memory access
+		//memaddress <= 32'd0;
+		mem_writeena <= 4'b0000;
+		//writeword <= 32'd0;
+		//data <= 32'd0;
+		
+		registerWriteEnable <= 1'b0;
+
+		// UART/SPI
+		uartsend <= 1'b0;
+		uartbyte <= 8'd0;
+		fifore <= 1'b0;
+		spisend <= 1'b0;
+		spioutput <= 8'd0;
+		
+		// Instruction cache
+		ICACHEADDR <= 27'hF; 			// Invalid cache address
+		//ICACHECOUNTER <= 6'd0;
+
+		cpustate <= `CPUFETCH_MASK;
 
 	end else begin
-
-		cpustate <= 11'd0;
+	
+		cpustate <= 10'd0;
 
 		case (1'b1) // synthesis parallel_case full_case
-
-			cpustate[`CPUINIT] : begin
-
-                // Program counter
-				PC <= 32'h000FA00; // Point at reset vector by default (bootloader placed here by default)
-				//nextPC <= 32'd0;
-
-                // Internal block memory access
-				//memaddress <= 32'd0;
-				mem_writeena <= 4'b0000;
-				//writeword <= 32'd0;
-				data <= 32'd0;
-				
-				registerWriteEnable <= 1'b0;
-
-                // UART/SPI
-				uartsend <= 1'b0;
-				uartbyte <= 8'd0;
-				fifore <= 1'b0;
-    			spisend <= 1'b0;
-    			spioutput <= 8'd0;
-    			
-    			// Instruction cache
-				ICACHEADDR <= 27'hF; 			// Invalid cache address
-				//ICACHECOUNTER <= 6'd0;
-				
-				// NOTE: Not clearing instruction cache for now
-				//ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
-				//ICACHE[ 1] <= 16'h0000;	// 0x02  -> 0x1
-				//ICACHE[ 2] <= 16'h0000;	// 0x04  -> 0x2
-				//ICACHE[ 3] <= 16'h0000;	// 0x06  -> 0x3
-				//ICACHE[ 4] <= 16'h0000;	// 0x08  -> 0x4
-				//ICACHE[ 5] <= 16'h0000;	// 0x0A  -> 0x5
-				//ICACHE[ 6] <= 16'h0000;	// 0x0C  -> 0x6
-				//ICACHE[ 7] <= 16'h0000;	// 0x0E  -> 0x7
-				//ICACHE[ 8] <= 16'h0000;	// 0x10  -> 0x8
-				//ICACHE[ 9] <= 16'h0000;	// 0x12  -> 0x9
-				//ICACHE[10] <= 16'h0000;	// 0x14  -> 0xA
-				//ICACHE[11] <= 16'h0000;	// 0x16  -> 0xB
-				//ICACHE[12] <= 16'h0000;	// 0x18  -> 0xC
-				//ICACHE[13] <= 16'h0000;	// 0x1A  -> 0xD
-				//ICACHE[14] <= 16'h0000;	// 0x1C  -> 0xE
-				//ICACHE[15] <= 16'h0000;	// 0x1E  -> 0xF
-				// TODO: Spare for misaligned instructions
-				//ICACHE[16] <= 16'h0000;
-				//ICACHE[17] <= 16'h0000;
-
-				cpustate[`CPUFETCH] <= 1'b1;
-			end
-			
+		
 			cpustate[`CPUFETCH] : begin
 				if (icachenotmissed) begin // Still in instruction cache?
 					if (alustall) begin

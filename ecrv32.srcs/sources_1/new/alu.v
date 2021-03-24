@@ -73,7 +73,7 @@ always @(*) begin
             `ALU_GEU:  begin aluout = val1 >= val2 ? 32'd1 : 32'd0; end
     
             // None
-            default:   begin aluout = 0; end
+            default:   begin aluout = 32'd0; end
         endcase
 
     end
