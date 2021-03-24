@@ -11,36 +11,34 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="1257786606fs"></ZoomStartTime>
-      <ZoomEndTime time="1386936607fs"></ZoomEndTime>
-      <Cursor1Time time="1286286620fs"></Cursor1Time>
+      <ZoomStartTime time="1376616135fs"></ZoomStartTime>
+      <ZoomEndTime time="1389591136fs"></ZoomEndTime>
+      <Cursor1Time time="1383686135fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="178"></NameColumnWidth>
-      <ValueColumnWidth column_width="86"></ValueColumnWidth>
+      <ValueColumnWidth column_width="74"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="151" />
+   <WVObjectSize size="154" />
    <wvobject type="logic" fp_name="/ecrv32top/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/led">
-      <obj_property name="ElementShortName">led[3:0]</obj_property>
-      <obj_property name="ObjectShortName">led[3:0]</obj_property>
-      <obj_property name="CustomSignalColor">#FFD700</obj_property>
-      <obj_property name="UseCustomSignalColor">true</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/ecrv32top/CLK100MHZ">
       <obj_property name="ElementShortName">CLK100MHZ</obj_property>
       <obj_property name="ObjectShortName">CLK100MHZ</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/ecrv32top/clocklocked">
-      <obj_property name="ElementShortName">clocklocked</obj_property>
-      <obj_property name="ObjectShortName">clocklocked</obj_property>
+   <wvobject type="logic" fp_name="/ecrv32top/CLK12MHZ">
+      <obj_property name="ElementShortName">CLK12MHZ</obj_property>
+      <obj_property name="ObjectShortName">CLK12MHZ</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/ecrv32top/videoclock">
       <obj_property name="ElementShortName">videoclock</obj_property>
       <obj_property name="ObjectShortName">videoclock</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/clocklocked">
+      <obj_property name="ElementShortName">clocklocked</obj_property>
+      <obj_property name="ObjectShortName">clocklocked</obj_property>
    </wvobject>
    <wvobject fp_name="divider1613" type="divider">
       <obj_property name="label">UARTOUTFIFO</obj_property>
@@ -90,13 +88,21 @@
       <obj_property name="ElementShortName">valid</obj_property>
       <obj_property name="ObjectShortName">valid</obj_property>
    </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/datatotransmit">
+      <obj_property name="ElementShortName">datatotransmit[7:0]</obj_property>
+      <obj_property name="ObjectShortName">datatotransmit[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/txstate">
+      <obj_property name="ElementShortName">txstate</obj_property>
+      <obj_property name="ObjectShortName">txstate</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ecrv32top/transmitbyte">
+      <obj_property name="ElementShortName">transmitbyte</obj_property>
+      <obj_property name="ObjectShortName">transmitbyte</obj_property>
+   </wvobject>
    <wvobject fp_name="divider158" type="divider">
       <obj_property name="label">UARTTRANSMITTER</obj_property>
       <obj_property name="DisplayName">label</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/UART_transmit/TxD_shift">
-      <obj_property name="ElementShortName">TxD_shift[7:0]</obj_property>
-      <obj_property name="ObjectShortName">TxD_shift[7:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/ecrv32top/UART_transmit/TxD_start">
       <obj_property name="ElementShortName">TxD_start</obj_property>
@@ -122,6 +128,10 @@
    <wvobject type="logic" fp_name="/ecrv32top/riscvcore/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/VGA_R">
+      <obj_property name="ElementShortName">VGA_R[3:0]</obj_property>
+      <obj_property name="ObjectShortName">VGA_R[3:0]</obj_property>
    </wvobject>
    <wvobject type="logic" fp_name="/ecrv32top/riscvcore/clock">
       <obj_property name="ElementShortName">clock</obj_property>

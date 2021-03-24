@@ -46,20 +46,20 @@
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
     <Option Name="DSABoardId" Val="arty-s7-25"/>
-    <Option Name="WTXSimLaunchSim" Val="306"/>
+    <Option Name="WTXSimLaunchSim" Val="319"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="145"/>
-    <Option Name="WTModelSimExportSim" Val="145"/>
-    <Option Name="WTQuestaExportSim" Val="145"/>
-    <Option Name="WTIesExportSim" Val="145"/>
-    <Option Name="WTVcsExportSim" Val="145"/>
-    <Option Name="WTRivieraExportSim" Val="145"/>
-    <Option Name="WTActivehdlExportSim" Val="145"/>
+    <Option Name="WTXSimExportSim" Val="147"/>
+    <Option Name="WTModelSimExportSim" Val="147"/>
+    <Option Name="WTQuestaExportSim" Val="147"/>
+    <Option Name="WTIesExportSim" Val="147"/>
+    <Option Name="WTVcsExportSim" Val="147"/>
+    <Option Name="WTRivieraExportSim" Val="147"/>
+    <Option Name="WTActivehdlExportSim" Val="147"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -79,6 +79,15 @@
         <FileInfo>
           <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/ip/VRAMGen/VRAMGen.xci"/>
           <Attr Name="ImportTime" Val="1613879820"/>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedIn" Val="simulation"/>
+        </FileInfo>
+      </File>
+      <File Path="$PSRCDIR/sources_1/ip/CoreClockGen/CoreClockGen.xci">
+        <FileInfo>
+          <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/ip/CoreClockGen/CoreClockGen.xci"/>
+          <Attr Name="ImportTime" Val="1614316274"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -273,21 +282,6 @@
         <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
-    <FileSet Name="CoreClockGen" Type="BlockSrcs" RelSrcDir="$PSRCDIR/CoreClockGen" RelGenDir="$PGENDIR/CoreClockGen">
-      <File Path="$PSRCDIR/sources_1/ip/CoreClockGen/CoreClockGen.xci">
-        <FileInfo>
-          <Attr Name="ImportPath" Val="$PSRCDIR/sources_1/ip/CoreClockGen/CoreClockGen.xci"/>
-          <Attr Name="ImportTime" Val="1614316274"/>
-          <Attr Name="UsedIn" Val="synthesis"/>
-          <Attr Name="UsedIn" Val="implementation"/>
-          <Attr Name="UsedIn" Val="simulation"/>
-        </FileInfo>
-      </File>
-      <Config>
-        <Option Name="TopModule" Val="CoreClockGen"/>
-        <Option Name="UseBlackboxStub" Val="1"/>
-      </Config>
-    </FileSet>
     <FileSet Name="SysMemGen" Type="BlockSrcs" RelSrcDir="$PSRCDIR/SysMemGen" RelGenDir="$PGENDIR/SysMemGen">
       <File Path="$PSRCDIR/sources_1/ip/SysMemGen/SysMemGen.xci">
         <FileInfo>
@@ -362,16 +356,6 @@
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="CoreClockGen_synth_1" Type="Ft3:Synth" SrcSet="CoreClockGen" Part="xc7s25csga324-1" ConstrsSet="CoreClockGen" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/CoreClockGen_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/CoreClockGen_synth_1">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020"/>
-        <Step Id="synth_design"/>
-      </Strategy>
-      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
-      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2020"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
     <Run Id="SysMemGen_synth_1" Type="Ft3:Synth" SrcSet="SysMemGen" Part="xc7s25csga324-1" ConstrsSet="SysMemGen" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/SysMemGen_synth_1" IncludeInArchive="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/SysMemGen_synth_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2020">
@@ -424,23 +408,6 @@
       <RQSFiles/>
     </Run>
     <Run Id="PeripheralClockGen_impl_1" Type="Ft2:EntireDesign" Part="xc7s25csga324-1" ConstrsSet="PeripheralClockGen" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="PeripheralClockGen_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PPRDIR/../../Xilinx/Vivado/2020.2/bin/E:/Repos/ecrv32B/ecrv32.srcs/utils_1/imports/PeripheralClockGen_impl_1">
-      <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
-        <Step Id="init_design"/>
-        <Step Id="opt_design"/>
-        <Step Id="power_opt_design"/>
-        <Step Id="place_design"/>
-        <Step Id="post_place_power_opt_design"/>
-        <Step Id="phys_opt_design"/>
-        <Step Id="route_design"/>
-        <Step Id="post_route_phys_opt_design"/>
-        <Step Id="write_bitstream"/>
-      </Strategy>
-      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2020"/>
-      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
-      <RQSFiles/>
-    </Run>
-    <Run Id="CoreClockGen_impl_1" Type="Ft2:EntireDesign" Part="xc7s25csga324-1" ConstrsSet="CoreClockGen" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="CoreClockGen_synth_1" IncludeInArchive="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/CoreClockGen_impl_1">
       <Strategy Version="1" Minor="2">
         <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2020"/>
         <Step Id="init_design"/>
