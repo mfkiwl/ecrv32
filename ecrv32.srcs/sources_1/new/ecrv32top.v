@@ -63,14 +63,14 @@ wire uartsend;
 wire uartbyteavailable;
 wire [7:0] uartbyte;
 wire [7:0] uartbytein;
-reg [7:0] outfifoin = 8'h00;
 wire uarttxbusy;
 reg [7:0] fifoin = 8'h00;
+reg [7:0] datatotransmit = 8'h00;
 reg fifowe = 1'b0;
-reg outfifowe = 1'b0;
 reg transmitbyte = 1'b0;
 wire fifore;
 reg outfifore = 1'b0;
+reg txstate = 1'b0;
 wire [7:0] fifoout;
 wire [7:0] outfifoout;
 wire fifofull;
@@ -213,7 +213,7 @@ cputoplevel riscvcore(
 async_transmitter UART_transmit(
 	.clk(uartbase),
 	.TxD_start(transmitbyte),
-	.TxD_data(outfifoout),
+	.TxD_data(datatotransmit),
 	.TxD(uart_rxd_out),
 	.TxD_busy(uarttxbusy) );
 
@@ -221,8 +221,8 @@ async_transmitter UART_transmit(
 UARTFifoGen UART_out_fifo(
     .rst((reset) | (~clocklocked)),
     .full(outfifofull),
-    .din(outfifoin), // data from CPU
-    .wr_en(outfifowe), // CPU controls write
+    .din(uartbyte), // data from CPU
+    .wr_en(uartsend), // CPU controls write, high for one clock
     .empty(outfifoempty),
     .dout(outfifoout), // to transmitter
     .rd_en(outfifore), // transmitter can send
@@ -257,29 +257,37 @@ UARTFifoGen UART_in_fifo(
     .wr_rst_busy(),
     .rd_rst_busy(),
     .rd_data_count(fifodatacount) );
-    
-always @(posedge(cpuclock)) begin
-	if (uartsend) begin // Push data to send
-		outfifowe <= 1'b1;
-		outfifoin <= uartbyte;
-	end else begin
-		outfifowe <= 1'b0;
+
+// Trigger a FIFO read when the FIFO is not empty and UART is not busy
+always @(posedge(uartbase)) begin
+	if (txstate == 1'b0) begin // IDLE_STATE
+		if (~uarttxbusy & (transmitbyte == 1'b0)) begin // Safe to attempt send, UART not busy or triggered
+			if (~outfifoempty) begin // Something in FIFO? Trigger read and go to transmit 
+				outfifore <= 1'b1;			
+				txstate <= 1'b1;
+			end else begin
+				outfifore <= 1'b0;
+				txstate <= 1'b0; // Stay in idle state
+			end
+		end else begin // Transmit hardware busy or we kicked a transmit (should end next clock)
+			outfifore <= 1'b0;
+			txstate <= 1'b0; // Stay in idle state
+		end
+		transmitbyte <= 1'b0;
+	end else begin // TRANSMIT_STATE
+		outfifore <= 1'b0; // Stop read request
+		if (outfifovalid) begin // Kick send and go to idle
+			datatotransmit <= outfifoout;
+			transmitbyte <= 1'b1;
+			txstate <= 1'b0;
+		end else begin
+			txstate <= 1'b1; // Stay in transmit state and wait for valid fifo data
+		end
 	end
 end
 
-// Output bytes from the FIFO
+// Push incoming data to FIFO every time a byte arrives
 always @(posedge(uartbase)) begin
-	if (uarttxbusy | outfifoempty) begin
-		outfifore <= 1'b0;
-		transmitbyte <= 1'b0;
-	end else begin
-		outfifore <= 1'b1;
-		transmitbyte <= 1'b1;
-	end
-end
-	
-always @(posedge(uartbase)) begin
-	// Push incoming data to fifo every time one byte arrives
 	if (uartbyteavailable) begin
 		fifowe <= 1'b1;
 		fifoin <= uartbytein;
@@ -288,7 +296,7 @@ always @(posedge(uartbase)) begin
 	end
 end
 
-// VGA clock generator
+// VGA output generator
 video vgaout(
 	.clk(videoclock),
 	.reset((reset) | (~clocklocked)),
@@ -332,7 +340,7 @@ always @(posedge(videoclock)) begin
 	end
 end
 
-// SDCARD
+// SD Card controller
 SPI_Master_With_Single_CS SDCardController (
 	// Control/Data Signals
 	.i_Rst_L((~reset) & (clocklocked)),	// FPGA Reset
