@@ -7,7 +7,6 @@ module ALU(
 	input wire clock,
 	input wire reset,
 	input wire divstart,
-	input wire fdivstart,
 	output reg [31:0] aluout,
 	input wire [2:0] func3,
 	input wire [31:0] val1,

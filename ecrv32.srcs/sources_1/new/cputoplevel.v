@@ -14,7 +14,6 @@ module cputoplevel(
 	output reg chipselect,
 	output reg uartsend,
 	output reg [7:0] uartbyte,
-	input wire uarttxbusy,
 	output reg fifore,
     input wire [7:0] fifoout,
     input wire fifovalid,
@@ -30,10 +29,9 @@ reg [26:0] ICACHEADDR = 27'hF;			// Truncated lower bits
 reg [15:0] ICACHE[0:17];				// Cached instruction words, indexed using lower bits of IP for 16x16bit word entries plus 2x16bit spare for odd instruction alignment
 reg [4:0] ICACHECOUNTER = 5'd0;			// Cache load counter (count 0 to 7, high bit set at 8th 32bit word read)
 
-// CPU States
-parameter CPUINIT=0, CPUFETCH=1, CPUCACHEFILLWAIT=2, CPUICACHEFILL=3, CPULOADCOMPLETE=4, CPULOADWAIT=5, 
-CPUSTORE=6, CPUEXEC=7, CPURETIREINSTRUCTION=8, CPUUARTREAD=9, CPUSTALL=10;
-reg [10:0] cpustate = 11'd1;
+// Cpu state one-hot tracking
+reg [10:0] cpustate = `CPUINIT_MASK;
+wire [10:0] nextstage;
 
 // Program counter
 reg [31:0] PC = 32'h000FA00;
@@ -48,7 +46,8 @@ wire [2:0] func3;
 wire [6:0] func7;
 
 // Register file related wires
-reg wren = 1'b0;
+wire wren;
+reg registerWriteEnable = 1'b0;
 reg [31:0] data = 32'd0;
 wire [31:0] rval1;
 wire [31:0] rval2;
@@ -74,6 +73,8 @@ decoder idecode(
 	.func3(func3),
 	.func7(func7),
 	.imm(imm),
+	.nextstage(nextstage),
+	.wren(wren),
 	.selectimmedasrval2(selectimmedasrval2) );
 
 // Integer register file
@@ -83,7 +84,7 @@ registerfile regs(
 	.rs1(rs1),
 	.rs2(rs2),
 	.rd(rd),
-	.wren(wren),
+	.wren(registerWriteEnable),
 	.datain(data),
 	.rval1(rval1),
 	.rval2(rval2) );
@@ -101,13 +102,12 @@ instructiondecompressor rv32cdecompress(.instr_lowword(instrlo), .instr_highword
 
 // ALU
 wire alustall;
-wire divstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH when cache is not missed
-wire fdivstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (faluop==`ALU_FDIV); // High only during FETCH when cache is not missed
+wire divstart = (cpustate[`CPUFETCH]==1'b1 && icachenotmissed) && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH when cache is not missed
+//wire fdivstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (faluop==`ALU_FDIV); // High only during FETCH when cache is not missed
 ALU aluunit(
 	.reset(reset),
 	.clock(clock),
 	.divstart(divstart),
-	.fdivstart(fdivstart),
 	.aluout(aluout),
 	.func3(func3),
 	.val1(rval1),
@@ -119,7 +119,7 @@ ALU aluunit(
 always @(posedge clock) begin
 	if (reset) begin
 
-		cpustate <= 11'd1;
+		cpustate <= `CPUINIT_MASK;
 
 	end else begin
 
@@ -127,7 +127,7 @@ always @(posedge clock) begin
 
 		case (1'b1) // synthesis parallel_case full_case
 
-			cpustate[CPUINIT] : begin
+			cpustate[`CPUINIT] : begin
 
                 // Program counter
 				PC <= 32'h000FA00; // Point at reset vector by default (bootloader placed here by default)
@@ -139,9 +139,8 @@ always @(posedge clock) begin
 				writeword <= 32'd0;
 				chipselect <= 1'b0;
 				data <= 32'd0;
-
-                // Integer register control
-				wren <= 1'b0;
+				
+				registerWriteEnable <= 1'b0;
 
                 // UART/SPI
 				uartsend <= 1'b0;
@@ -175,72 +174,49 @@ always @(posedge clock) begin
 				//ICACHE[16] <= 16'h0000;
 				//ICACHE[17] <= 16'h0000;
 
-				cpustate[CPUFETCH] <= 1'b1;
+				cpustate[`CPUFETCH] <= 1'b1;
 			end
 			
-			cpustate[CPUFETCH] : begin
+			cpustate[`CPUFETCH] : begin
 				if (icachenotmissed) begin // Still in instruction cache?
 					if (alustall) begin
-						cpustate[CPUSTALL] <= 1'b1;
+						cpustate[`CPUSTALL] <= 1'b1;
 					end else begin
-						// Use the (raw or decompressed) instruction from the current cache address
-						case(opcode)
-							`OPCODE_AUPC: begin
-								wren <= 1'b1;
-								data <= incrementedbyimmpc;
-								nextPC <= incrementedpc;
-								cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-							end
-							`OPCODE_LUI: begin
-								wren <= 1'b1;
-								data <= imm;
-								nextPC <= incrementedpc;
-								cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-							end
-							`OPCODE_JAL: begin
-								wren <= 1'b1;
-								data <= incrementedpc;
-								nextPC <= incrementedbyimmpc;
-								cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-							end
-							default: begin
-								cpustate[CPUEXEC] <= 1'b1;
-							end
-						endcase
+						cpustate[`CPUEXEC] <= 1'b1;
 					end
 				end else begin
 					memaddress <= {PC[31:5], 5'b00000}; // Set load address to top of the cache page
 					chipselect <= 1'b0;
 					ICACHECOUNTER <= 5'd0;
-					cpustate[CPUCACHEFILLWAIT] <= 1'b1; // Jump to read delay stages (block RAM has 1 cycle latency for read)
+					cpustate[`CPUCACHEFILLWAIT] <= 1'b1; // Jump to read delay stages (block RAM has 1 cycle latency for read)
 				end
 			end
 			
-			cpustate[CPUSTALL]: begin
+			cpustate[`CPUSTALL]: begin
 				if (~alustall) begin
-					cpustate[CPUEXEC] <= 1'b1;
+					cpustate[`CPUEXEC] <= 1'b1;
 				end else begin
-					cpustate[CPUSTALL] <= 1'b1;
+					cpustate[`CPUSTALL] <= 1'b1;
 				end
 			end
 
-			cpustate[CPUCACHEFILLWAIT]: begin
+			cpustate[`CPUCACHEFILLWAIT]: begin
 				// Step address by 4 bytes for next read
 				memaddress <= memaddress + 32'd4;
 				// Loop around
-				cpustate[CPUICACHEFILL] <= 1'b1;
+				cpustate[`CPUICACHEFILL] <= 1'b1;
 			end
 
 			// This will loop until the instruction cache is full, reading 1 32bit word at a time and writing it into two 16bit locations
 			// The 16bit split makes it easy for cases where there might be compressed instructions
 			// NOTE: Perhaps needs 2x16bit padding to cope with odd number of 16bit words covering full+compressed instruction sequences
 			// so that we don't get cut halfway when accessing a 32bit instruction  
-			cpustate[CPUICACHEFILL]: begin
+			cpustate[`CPUICACHEFILL]: begin
 				if (ICACHECOUNTER == 5'd10) begin // Done filling the cache (0 to 8 inclusive for [0:17] entries) - NOTE: need to spin an extra clock to finish last read
 					// Remember the new page address
 					ICACHEADDR <= PC[31:5];
 					// When done, loop back to FETCH so it can populate the instr
-					cpustate[CPUFETCH] <= 1'b1;
+					cpustate[`CPUFETCH] <= 1'b1;
 				end else begin
 					// Load previous item to cache
 					ICACHE[{ICACHECOUNTER[3:0],1'b0}] <= mem_data[15:0]; // Store entry at ICACHECOUNTER*2+0 and ICACHECOUNTER*2+1
@@ -250,89 +226,95 @@ always @(posedge clock) begin
 					// Step address by 4 bytes for next read
 					memaddress <= memaddress + 32'd4;
 					// Loop around
-					cpustate[CPUICACHEFILL] <= 1'b1; // CPUCACHEFILLWAIT?
+					cpustate[`CPUICACHEFILL] <= 1'b1; // CPUCACHEFILLWAIT?
 				end
 			end
 			
-			cpustate[CPUEXEC] : begin
+			cpustate[`CPUEXEC] : begin
+				registerWriteEnable <= wren;
+				cpustate <= nextstage;
 				case (opcode)
+                    `OPCODE_AUPC: begin
+                        data <= incrementedbyimmpc;
+                        nextPC <= incrementedpc;
+                    end
+                    `OPCODE_LUI: begin
+                        data <= imm;
+                        nextPC <= incrementedpc;
+                    end
+                    `OPCODE_JAL: begin
+                        data <= incrementedpc;
+                        nextPC <= incrementedbyimmpc;
+                    end
 					`OPCODE_OP, `OPCODE_OP_IMM: begin
-						wren <= 1'b1;
 						data <= aluout;
 						nextPC <= incrementedpc;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					`OPCODE_LOAD: begin
 						memaddress <= rval1plusimm;
 						chipselect <= 1'b0;
 						nextPC <= incrementedpc;
-						cpustate[CPULOADWAIT] <= 1'b1;
 					end
 					`OPCODE_STORE: begin
 						data <= rval2;
 						memaddress <= rval1plusimm;
 						nextPC <= incrementedpc;
-						cpustate[CPUSTORE] <= 1'b1;
 					end
 					`OPCODE_JALR: begin
-						wren <= 1'b1;
 						data <= incrementedpc;
 						nextPC <= rval1plusimm;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					`OPCODE_BRANCH: begin
 						nextPC <= aluout[0] ? incrementedbyimmpc : incrementedpc;
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					default: begin
 						// These are illegal / unhandled or non-op instructions, jump back to reset vector
 						nextPC <= 32'h000FA00;
-						cpustate[CPUFETCH] <= 1'b1;
 					end
 				endcase
 			end
 			
-			cpustate[CPULOADWAIT]: begin
+			cpustate[`CPULOADWAIT]: begin
 				case (memaddress[31:28])
 					4'b0011: begin // 0x30000000: SPI IN
 						if (spiinputready) begin
-							wren <= 1'b1;
+							//wren <= 1'b1;
 							data <= {21'd0, spiinput};
-							cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+							cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 						end else begin
-							cpustate[CPULOADWAIT] <= 1'b1;
+							cpustate[`CPULOADWAIT] <= 1'b1;
 						end
 					end
 					4'b0110: begin // 0x60000000: UART OUT - STATUS:Receive counter
-						wren <= 1'b1;
+						//wren <= 1'b1;
 						data <= {21'd0, fifodatacount};
-						cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+						cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 					end
 					4'b0101: begin // 0x50000000: UART IN
 						fifore <= 1'b1; // Switch to read from UART FIFO
-						cpustate[CPUUARTREAD] <= 1'b1;
+						cpustate[`CPUUARTREAD] <= 1'b1;
 					end
 					default: begin  
 						// 0x80000000 or other address combinations
 						// stay in wait state for memory reads to complete
-						cpustate[CPULOADCOMPLETE] <= 1'b1;
+						cpustate[`CPULOADCOMPLETE] <= 1'b1;
 					end
 				endcase
 			end
 
-			cpustate[CPUUARTREAD]: begin
+			cpustate[`CPUUARTREAD]: begin
 				// Wait until data is in 'valid' state
 				if (fifovalid) begin
 					fifore <= 1'b0;
-					wren <= 1'b1;
+					//wren <= 1'b1;
 					data <= {24'd0, fifoout};
-					cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+					cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 				end else begin
-					cpustate[CPUUARTREAD] <= 1'b1; // Loop for one more clock
+					cpustate[`CPUUARTREAD] <= 1'b1; // Loop for one more clock
 				end
 			end
 
-			cpustate[CPULOADCOMPLETE]: begin
+			cpustate[`CPULOADCOMPLETE]: begin
                 case (func3) // lb:000 lh:001 lw:010 lbu:100 lhu:101
                     3'b000: begin
                         // Byte alignment based on {address[1:0]} with sign extension
@@ -374,30 +356,26 @@ always @(posedge clock) begin
                         // undefined mem op, TODO: Do we throw an exception, or just ignore it? Check specs.
                     end
                 endcase
-                wren <= 1'b1;
+                //wren <= 1'b1;
 
-				cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+				cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 			end
 			
-			cpustate[CPUSTORE]: begin
+			cpustate[`CPUSTORE]: begin
                 if (memaddress[31:28] == 4'b0100) begin // 0x40000000: UART OUT
-                    if (~uarttxbusy) begin
-                        uartbyte <= rval2[7:0]; // Always send lower byte only
-                        uartsend <= 1'b1;
-                        cpustate[CPURETIREINSTRUCTION] <= 1'b1;
-                    end else begin
-                        cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock
-                    end
+					uartbyte <= rval2[7:0]; // Always send lower byte only
+					uartsend <= 1'b1;
+					cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
                 end else if (memaddress[31:28] == 4'b0010) begin // 0x20000000: SPI OUT
-                    if (sdtxready) begin
+                    if (sdtxready) begin // TODO: Also switch to using FIFO
                         spioutput <= rval2[7:0]; // Always send lower byte only
                         spisend <= 1'b1;
-                        cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                        cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
                     end else begin
-                        cpustate[CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
+                        cpustate[`CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
                     end
                 end else begin
-                    cpustate[CPURETIREINSTRUCTION] <= 1'b1;
+                    cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
                     chipselect <= memaddress[31]; // 0x80000000: VRAM OUTPUT, other addresses are SYSRAM addresses
                     case (func3)
                         // Byte
@@ -424,17 +402,18 @@ always @(posedge clock) begin
                 end
 			end
 
-			cpustate[CPURETIREINSTRUCTION]: begin
-				wren <= 1'b0;
+			cpustate[`CPURETIREINSTRUCTION]: begin
+				//wren <= 1'b0;
+				registerWriteEnable <= 1'b0;
 				mem_writeena <= 4'b0000;
 				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
 				uartsend <= 1'b0;
 				spisend <= 1'b0;
-				cpustate[CPUFETCH] <= 1'b1;
+				cpustate[`CPUFETCH] <= 1'b1;
 			end
 
 			default : begin
-				cpustate[CPUSTALL] <= 1'b1;
+				cpustate[`CPUSTALL] <= 1'b1;
 			end
 		endcase
 	end

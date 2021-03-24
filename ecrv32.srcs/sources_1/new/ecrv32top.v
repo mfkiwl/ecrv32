@@ -63,21 +63,30 @@ wire uartsend;
 wire uartbyteavailable;
 wire [7:0] uartbyte;
 wire [7:0] uartbytein;
+reg [7:0] outfifoin = 8'h00;
 wire uarttxbusy;
-reg [7:0] fifoin;
-reg fifowe;
+reg [7:0] fifoin = 8'h00;
+reg fifowe = 1'b0;
+reg outfifowe = 1'b0;
+reg transmitbyte = 1'b0;
 wire fifore;
+reg outfifore = 1'b0;
 wire [7:0] fifoout;
+wire [7:0] outfifoout;
 wire fifofull;
+wire outfifofull;
 wire fifoempty;
+wire outfifoempty;
 wire fifovalid;
+wire outfifovalid;
 wire [10:0] fifodatacount;
+wire [10:0] outfifodatacount;
 wire instructionfault;
 wire executing;
 wire fillingcache;
-reg [3:0] videoR;
-reg [3:0] videoG;
-reg [3:0] videoB;
+reg [3:0] videoR = 1'b0;
+reg [3:0] videoG = 1'b0;
+reg [3:0] videoB = 1'b0;
 wire [9:0] pixelX;
 wire [9:0] pixelY;
 wire [13:0] videoreadaddress;
@@ -139,7 +148,6 @@ cputoplevel riscvcore(
 	.chipselect(chipselect),
 	.uartsend(uartsend),
 	.uartbyte(uartbyte),
-	.uarttxbusy(uarttxbusy),
     .fifore(fifore),
     .fifoout(fifoout),
     .fifovalid(fifovalid),
@@ -203,11 +211,27 @@ cputoplevel riscvcore(
 
 // UART - Transmitter
 async_transmitter UART_transmit(
-	.clk(cpuclock),
-	.TxD_start(uartsend),
-	.TxD_data(uartbyte),
+	.clk(uartbase),
+	.TxD_start(transmitbyte),
+	.TxD_data(outfifoout),
 	.TxD(uart_rxd_out),
 	.TxD_busy(uarttxbusy) );
+
+// UART - Output FIFO
+UARTFifoGen UART_out_fifo(
+    .rst((reset) | (~clocklocked)),
+    .full(outfifofull),
+    .din(outfifoin), // data from CPU
+    .wr_en(outfifowe), // CPU controls write
+    .empty(outfifoempty),
+    .dout(outfifoout), // to transmitter
+    .rd_en(outfifore), // transmitter can send
+    .wr_clk(cpuclock),
+    .rd_clk(uartbase), // transmitter runs slower
+    .valid(outfifovalid),
+    .wr_rst_busy(),
+    .rd_rst_busy(),
+    .rd_data_count(outfifodatacount) );
 
 // UART - Receiver
 async_receiver UART_receive(
@@ -219,7 +243,7 @@ async_receiver UART_receive(
 	.RxD_endofpacket() );
 
 // UART - Input FIFO
-UARTFifoGen UART_fifo(
+UARTFifoGen UART_in_fifo(
     .rst((reset) | (~clocklocked)),
     .full(fifofull),
     .din(fifoin),
@@ -233,6 +257,26 @@ UARTFifoGen UART_fifo(
     .wr_rst_busy(),
     .rd_rst_busy(),
     .rd_data_count(fifodatacount) );
+    
+always @(posedge(cpuclock)) begin
+	if (uartsend) begin // Push data to send
+		outfifowe <= 1'b1;
+		outfifoin <= uartbyte;
+	end else begin
+		outfifowe <= 1'b0;
+	end
+end
+
+// Output bytes from the FIFO
+always @(posedge(uartbase)) begin
+	if (uarttxbusy | outfifoempty) begin
+		outfifore <= 1'b0;
+		transmitbyte <= 1'b0;
+	end else begin
+		outfifore <= 1'b1;
+		transmitbyte <= 1'b1;
+	end
+end
 	
 always @(posedge(uartbase)) begin
 	// Push incoming data to fifo every time one byte arrives
@@ -302,7 +346,8 @@ SPI_Master_With_Single_CS SDCardController (
 
 	// RX (MISO) Signals
 	.o_RX_DV(sddatavalid),				// Data Valid pulse (1 clock cycle)
-	.o_RX_Byte(sdrcvdata),			// Byte received on MISO
+	.o_RX_Byte(sdrcvdata),				// Byte received on MISO
+	.o_RX_Count(),						// Receive count - unused
 
 	// SPI Interface
 	.o_SPI_Clk(sck),
