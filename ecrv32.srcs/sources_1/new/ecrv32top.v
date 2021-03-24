@@ -55,7 +55,6 @@ wire [31:0] memaddress;
 wire [31:0] writeword;
 wire [31:0] mem_data;
 wire [3:0] mem_writeena;
-wire chipselect;
 wire [31:0] vramdataout;
 wire [1:0] videobyteselect;
 wire indisplayarea;
@@ -119,7 +118,7 @@ SysMemGen SysMem(
 	.dina(writeword),
 	.douta(mem_data),
 	.ena((~reset) & clocklocked),
-	.wea(chipselect==1'b0 ? mem_writeena : 4'b0000) );
+	.wea(memaddress[31]==1'b0 ? mem_writeena : 4'b0000) );
 
 // Video Memory
 VRAMGen VideoMem(
@@ -127,7 +126,7 @@ VRAMGen VideoMem(
 	.clka(cpuclock),
 	.dina(writeword),
 	.ena((~reset) & clocklocked),
-	.wea(chipselect==1'b1 ? mem_writeena : 4'b0000),
+	.wea(memaddress[31]==1'b1 ? mem_writeena : 4'b0000),
 	.addrb(videoreadaddress),
 	.clkb(videoclock),
 	.doutb(vramdataout) );
@@ -145,7 +144,6 @@ cputoplevel riscvcore(
 	.writeword(writeword),
 	.mem_data(mem_data),
 	.mem_writeena(mem_writeena),
-	.chipselect(chipselect),
 	.uartsend(uartsend),
 	.uartbyte(uartbyte),
     .fifore(fifore),

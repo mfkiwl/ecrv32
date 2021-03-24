@@ -11,7 +11,6 @@ module cputoplevel(
 	output reg [31:0] writeword,
 	input wire [31:0] mem_data,
 	output reg [3:0] mem_writeena,
-	output reg chipselect,
 	output reg uartsend,
 	output reg [7:0] uartbyte,
 	output reg fifore,
@@ -131,13 +130,12 @@ always @(posedge clock) begin
 
                 // Program counter
 				PC <= 32'h000FA00; // Point at reset vector by default (bootloader placed here by default)
-				nextPC <= 32'd0;
+				//nextPC <= 32'd0;
 
                 // Internal block memory access
-				memaddress <= 32'd0;
+				//memaddress <= 32'd0;
 				mem_writeena <= 4'b0000;
-				writeword <= 32'd0;
-				chipselect <= 1'b0;
+				//writeword <= 32'd0;
 				data <= 32'd0;
 				
 				registerWriteEnable <= 1'b0;
@@ -151,7 +149,7 @@ always @(posedge clock) begin
     			
     			// Instruction cache
 				ICACHEADDR <= 27'hF; 			// Invalid cache address
-				ICACHECOUNTER <= 6'd0;
+				//ICACHECOUNTER <= 6'd0;
 				
 				// NOTE: Not clearing instruction cache for now
 				//ICACHE[ 0] <= 16'h0000;	// 0x00  -> 0x0
@@ -184,9 +182,9 @@ always @(posedge clock) begin
 					end else begin
 						cpustate[`CPUEXEC] <= 1'b1;
 					end
+					memaddress <= 32'd0; // Point at nothing
 				end else begin
 					memaddress <= {PC[31:5], 5'b00000}; // Set load address to top of the cache page
-					chipselect <= 1'b0;
 					ICACHECOUNTER <= 5'd0;
 					cpustate[`CPUCACHEFILLWAIT] <= 1'b1; // Jump to read delay stages (block RAM has 1 cycle latency for read)
 				end
@@ -215,6 +213,7 @@ always @(posedge clock) begin
 				if (ICACHECOUNTER == 5'd10) begin // Done filling the cache (0 to 8 inclusive for [0:17] entries) - NOTE: need to spin an extra clock to finish last read
 					// Remember the new page address
 					ICACHEADDR <= PC[31:5];
+					memaddress <= 32'd0;
 					// When done, loop back to FETCH so it can populate the instr
 					cpustate[`CPUFETCH] <= 1'b1;
 				end else begin
@@ -233,14 +232,14 @@ always @(posedge clock) begin
 			cpustate[`CPUEXEC] : begin
 				registerWriteEnable <= wren;
 				cpustate <= nextstage;
+				memaddress <= 32'd0;
+				nextPC <= incrementedpc;
 				case (opcode)
                     `OPCODE_AUPC: begin
                         data <= incrementedbyimmpc;
-                        nextPC <= incrementedpc;
                     end
                     `OPCODE_LUI: begin
                         data <= imm;
-                        nextPC <= incrementedpc;
                     end
                     `OPCODE_JAL: begin
                         data <= incrementedpc;
@@ -248,17 +247,13 @@ always @(posedge clock) begin
                     end
 					`OPCODE_OP, `OPCODE_OP_IMM: begin
 						data <= aluout;
-						nextPC <= incrementedpc;
 					end
 					`OPCODE_LOAD: begin
 						memaddress <= rval1plusimm;
-						chipselect <= 1'b0;
-						nextPC <= incrementedpc;
 					end
 					`OPCODE_STORE: begin
 						data <= rval2;
 						memaddress <= rval1plusimm;
-						nextPC <= incrementedpc;
 					end
 					`OPCODE_JALR: begin
 						data <= incrementedpc;
@@ -362,6 +357,7 @@ always @(posedge clock) begin
 					uartbyte <= rval2[7:0]; // Always send lower byte only
 					uartsend <= 1'b1;
 					cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
+					writeword <= 32'd0;
                 end else if (memaddress[31:28] == 4'b0010) begin // 0x20000000: SPI OUT
                     if (sdtxready) begin // TODO: Also switch to using FIFO
                         spioutput <= rval2[7:0]; // Always send lower byte only
@@ -370,9 +366,10 @@ always @(posedge clock) begin
                     end else begin
                         cpustate[`CPUSTORE] <= 1'b1; // Loop for one more clock until we can write
                     end
+                    writeword <= 32'd0;
                 end else begin
                     cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
-                    chipselect <= memaddress[31]; // 0x80000000: VRAM OUTPUT, other addresses are SYSRAM addresses
+                    // 0x80000000: VRAM OUTPUT, other addresses are SYSRAM addresses
                     case (func3)
                         // Byte
                         3'b000: begin
