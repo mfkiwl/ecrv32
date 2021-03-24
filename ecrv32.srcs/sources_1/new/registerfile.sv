@@ -16,7 +16,9 @@ reg [31:0] registers[0:31];
 
 always @(posedge clock) begin
 	if (reset) begin
-		registers[0]  <= 32'h00000000; // f0,  zero (hardwired to zero)
+		// NOTE: Doing this reset costs ~500 LUTS!
+		// Make sure to clear all registers in your startup (crt0.S) file instead
+		/*registers[0]  <= 32'h00000000; // f0,  zero (hardwired to zero)
 		registers[1]  <= 32'h00000000; // f1,  ra (return address)
 		registers[2]  <= 32'h00000000; // f2,  sp (stack pointer, bottom of SYSRAM-16, spec says align to 16 bytes, rest is 16 bytes of unused/stash memory)
 		registers[3]  <= 32'h00000000; // f3,  gp (global pointer)
@@ -47,7 +49,7 @@ always @(posedge clock) begin
 		registers[28] <= 32'h00000000; // f28, t3
 		registers[29] <= 32'h00000000; // f29, t4
 		registers[30] <= 32'h00000000; // f30, t5
-		registers[31] <= 32'h00000000; // f31, t6
+		registers[31] <= 32'h00000000; // f31, t6*/
 	end else begin
 		if (wren && rd != 5'd0)
 			registers[rd] <= datain;

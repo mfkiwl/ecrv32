@@ -278,7 +278,6 @@ always @(posedge clock) begin
 				case (memaddress[31:28])
 					4'b0011: begin // 0x30000000: SPI IN
 						if (spiinputready) begin
-							//wren <= 1'b1;
 							data <= {21'd0, spiinput};
 							cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 						end else begin
@@ -286,7 +285,6 @@ always @(posedge clock) begin
 						end
 					end
 					4'b0110: begin // 0x60000000: UART OUT - STATUS:Receive counter
-						//wren <= 1'b1;
 						data <= {21'd0, fifodatacount};
 						cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 					end
@@ -306,7 +304,6 @@ always @(posedge clock) begin
 				// Wait until data is in 'valid' state
 				if (fifovalid) begin
 					fifore <= 1'b0;
-					//wren <= 1'b1;
 					data <= {24'd0, fifoout};
 					cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 				end else begin
@@ -356,7 +353,6 @@ always @(posedge clock) begin
                         // undefined mem op, TODO: Do we throw an exception, or just ignore it? Check specs.
                     end
                 endcase
-                //wren <= 1'b1;
 
 				cpustate[`CPURETIREINSTRUCTION] <= 1'b1;
 			end
@@ -403,7 +399,6 @@ always @(posedge clock) begin
 			end
 
 			cpustate[`CPURETIREINSTRUCTION]: begin
-				//wren <= 1'b0;
 				registerWriteEnable <= 1'b0;
 				mem_writeena <= 4'b0000;
 				PC <= {nextPC[31:1],1'b0}; // Truncate to 16bit addresses to align to instructions
