@@ -7,7 +7,6 @@
 // The new instruction cache
 module InstructionCache(
 	input wire clock,
-	input wire reset,
 	input wire [3:0] writeaddress,
 	input wire we,
 	input wire [31:0] datain,
@@ -17,12 +16,8 @@ module InstructionCache(
 reg [31:0] cacheddata[0:15];
 
 always @(posedge(clock)) begin
-	if (reset) begin
-		// TODO:
-	end else begin
-		if (we)
-			cacheddata[writeaddress] <= datain;
-	end
+	if (we)
+		cacheddata[writeaddress] <= datain;
 end
 
 // Output NOOP during cache fill to avoid conflicting outputs
@@ -62,7 +57,6 @@ wire [31:0] cachedinstrhigh;
 reg [3:0] icacheaddress;
 InstructionCache ICacheHigh(
 	.clock(clock),
-	.reset(reset),
 	.writeaddress(icacheaddress),
 	.we(cpustate[`CPUICACHEFILL]==1'b1),
 	.datain(mem_data),
