@@ -4,6 +4,27 @@
 `include "cpuops.vh"
 `include "aluops.vh"
 
+// The new instruction cache
+module InstructionCache(
+	input wire clock,
+	input wire [3:0] writeaddress,
+	input wire we,
+	input wire [31:0] datain,
+	input wire [3:0] readaddress,
+	output wire [31:0] dataout );
+	
+reg [31:0] cacheddata[0:15];
+
+always @(posedge(clock)) begin
+	if (we)
+		cacheddata[writeaddress] <= datain;
+end
+
+// Output NOOP during cache fill to avoid conflicting outputs
+assign dataout = cacheddata[readaddress];
+
+endmodule
+
 module cputoplevel(
 	input wire reset,
 	input wire clock,
@@ -23,14 +44,24 @@ module cputoplevel(
     input wire spiinputready,
     input wire [7:0] spiinput);
 
-// Instruction cache
-reg [26:0] ICACHEADDR;		// Truncated lower bits
-reg [15:0] ICACHE[0:17];	// Cached instruction words, indexed using lower bits of IP for 16x16bit word entries plus 2x16bit spare for odd instruction alignment
-reg [4:0] ICACHECOUNTER;	// Cache load counter (count 0 to 7, high bit set at 8th 32bit word read)
-
 // Cpu state one-hot tracking
 reg [9:0] cpustate;
 wire [10:0] nextstage;
+
+// Instruction cache
+reg [26:0] icachepage;		// Truncated lower bits
+reg [4:0] ICACHECOUNTER;	// Cache load counter (count 0 to 7, high bit set at 8th 32bit word read)
+
+// New instruction cache
+wire [31:0] cachedinstrhigh;
+reg [3:0] icacheaddress;
+InstructionCache ICacheHigh(
+	.clock(clock),
+	.writeaddress(icacheaddress),
+	.we(cpustate[`CPUICACHEFILL]==1'b1),
+	.datain(mem_data),
+	.readaddress(PC[5:2]),
+	.dataout(cachedinstrhigh) );
 
 // Program counter
 reg [31:0] PC;
@@ -94,9 +125,9 @@ wire [31:0] incrementedpc = is_compressed ? PC + 32'd2 : PC + 32'd4;
 wire [31:0] incrementedbyimmpc = PC + imm;
 wire [31:0] rval1plusimm = rval1 + imm;
 // If we've missed the cache, produce NOOP during cache fill to avoid strange ALU/regfile/decoder behavior
-wire icachenotmissed = PC[31:5] == ICACHEADDR;
-wire [15:0] instrhi = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}+5'd1] : 16'h0000;
-wire [15:0] instrlo = icachenotmissed ? ICACHE[{1'b0,PC[4:1]}] : {25'd0,`ADDI};
+wire icachenotmissed = PC[31:5] == icachepage;
+wire [15:0] instrhi = icachenotmissed ? cachedinstrhigh[31:16] : 16'h0000;
+wire [15:0] instrlo = icachenotmissed ? cachedinstrhigh[15:0] : {9'd0,`ADDI};
 instructiondecompressor rv32cdecompress(.instr_lowword(instrlo), .instr_highword(instrhi), .is_compressed(is_compressed), .fullinstr(fullinstruction));
 
 // ALU
@@ -138,7 +169,7 @@ always @(posedge clock) begin
 		spioutput <= 8'd0;
 		
 		// Instruction cache
-		ICACHEADDR <= 27'hF; 			// Invalid cache address
+		icachepage <= 27'hF; 			// Invalid cache address
 		//ICACHECOUNTER <= 6'd0;
 
 		cpustate <= `CPUFETCH_MASK;
@@ -175,6 +206,7 @@ always @(posedge clock) begin
 			cpustate[`CPUCACHEFILLWAIT]: begin
 				// Step address by 4 bytes for next read
 				memaddress <= memaddress + 32'd4;
+				icacheaddress <= memaddress[5:2]; // Previous memaddress
 				// Loop around
 				cpustate[`CPUICACHEFILL] <= 1'b1;
 			end
@@ -184,20 +216,18 @@ always @(posedge clock) begin
 			// NOTE: Perhaps needs 2x16bit padding to cope with odd number of 16bit words covering full+compressed instruction sequences
 			// so that we don't get cut halfway when accessing a 32bit instruction  
 			cpustate[`CPUICACHEFILL]: begin
-				if (ICACHECOUNTER == 5'd10) begin // Done filling the cache (0 to 8 inclusive for [0:17] entries) - NOTE: need to spin an extra clock to finish last read
+				if (ICACHECOUNTER == 5'd7) begin // Done filling the cache (0 to 8 inclusive for [0:17] entries) - NOTE: need to spin an extra clock to finish last read
 					// Remember the new page address
-					ICACHEADDR <= PC[31:5];
+					icachepage <= PC[31:5];
 					memaddress <= 32'd0;
 					// When done, loop back to FETCH so it can populate the instr
 					cpustate[`CPUFETCH] <= 1'b1;
 				end else begin
-					// Load previous item to cache
-					ICACHE[{ICACHECOUNTER[3:0],1'b0}] <= mem_data[15:0]; // Store entry at ICACHECOUNTER*2+0 and ICACHECOUNTER*2+1
-					ICACHE[{ICACHECOUNTER[3:0],1'b1}] <= mem_data[31:16];
 					// Point at next slot to write
 					ICACHECOUNTER <= ICACHECOUNTER + 5'd1;
 					// Step address by 4 bytes for next read
 					memaddress <= memaddress + 32'd4;
+					icacheaddress <= memaddress[5:2]; // Previous memaddress
 					// Loop around
 					cpustate[`CPUICACHEFILL] <= 1'b1; // CPUCACHEFILLWAIT?
 				end
