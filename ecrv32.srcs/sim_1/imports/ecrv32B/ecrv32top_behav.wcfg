@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="227198769fs"></ZoomStartTime>
-      <ZoomEndTime time="227718570fs"></ZoomEndTime>
-      <Cursor1Time time="227305769fs"></Cursor1Time>
+      <ZoomStartTime time="166558570fs"></ZoomStartTime>
+      <ZoomEndTime time="185128571fs"></ZoomEndTime>
+      <Cursor1Time time="182033570fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="178"></NameColumnWidth>
-      <ValueColumnWidth column_width="70"></ValueColumnWidth>
+      <ValueColumnWidth column_width="66"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="163" />
+   <WVObjectSize size="161" />
    <wvobject type="logic" fp_name="/ecrv32top/reset">
       <obj_property name="ElementShortName">reset</obj_property>
       <obj_property name="ObjectShortName">reset</obj_property>
@@ -154,24 +154,16 @@
       <obj_property name="ObjectShortName">dataout[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICacheHigh/cacheddata">
-      <obj_property name="ElementShortName">cacheddata[0:9][31:0]</obj_property>
-      <obj_property name="ObjectShortName">cacheddata[0:9][31:0]</obj_property>
+      <obj_property name="ElementShortName">cacheddata[0:15][31:0]</obj_property>
+      <obj_property name="ObjectShortName">cacheddata[0:15][31:0]</obj_property>
    </wvobject>
    <wvobject fp_name="divider1350" type="divider">
       <obj_property name="label">OLD_I$</obj_property>
       <obj_property name="DisplayName">label</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHEADDR">
-      <obj_property name="ElementShortName">ICACHEADDR[26:0]</obj_property>
-      <obj_property name="ObjectShortName">ICACHEADDR[26:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHECOUNTER">
       <obj_property name="ElementShortName">ICACHECOUNTER[4:0]</obj_property>
       <obj_property name="ObjectShortName">ICACHECOUNTER[4:0]</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/riscvcore/ICACHE">
-      <obj_property name="ElementShortName">ICACHE[0:17][15:0]</obj_property>
-      <obj_property name="ObjectShortName">ICACHE[0:17][15:0]</obj_property>
    </wvobject>
    <wvobject fp_name="divider1258" type="divider">
       <obj_property name="label">MEM</obj_property>
@@ -195,134 +187,6 @@
       <obj_property name="CustomSignalColor">#00FF7F</obj_property>
       <obj_property name="UseCustomSignalColor">true</obj_property>
       <obj_property name="WaveformStyle">STYLE_DIGITAL</obj_property>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[31]">
-         <obj_property name="ElementShortName">[31]</obj_property>
-         <obj_property name="ObjectShortName">[31]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[30]">
-         <obj_property name="ElementShortName">[30]</obj_property>
-         <obj_property name="ObjectShortName">[30]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[29]">
-         <obj_property name="ElementShortName">[29]</obj_property>
-         <obj_property name="ObjectShortName">[29]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[28]">
-         <obj_property name="ElementShortName">[28]</obj_property>
-         <obj_property name="ObjectShortName">[28]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[27]">
-         <obj_property name="ElementShortName">[27]</obj_property>
-         <obj_property name="ObjectShortName">[27]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[26]">
-         <obj_property name="ElementShortName">[26]</obj_property>
-         <obj_property name="ObjectShortName">[26]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[25]">
-         <obj_property name="ElementShortName">[25]</obj_property>
-         <obj_property name="ObjectShortName">[25]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[24]">
-         <obj_property name="ElementShortName">[24]</obj_property>
-         <obj_property name="ObjectShortName">[24]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[23]">
-         <obj_property name="ElementShortName">[23]</obj_property>
-         <obj_property name="ObjectShortName">[23]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[22]">
-         <obj_property name="ElementShortName">[22]</obj_property>
-         <obj_property name="ObjectShortName">[22]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[21]">
-         <obj_property name="ElementShortName">[21]</obj_property>
-         <obj_property name="ObjectShortName">[21]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[20]">
-         <obj_property name="ElementShortName">[20]</obj_property>
-         <obj_property name="ObjectShortName">[20]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[19]">
-         <obj_property name="ElementShortName">[19]</obj_property>
-         <obj_property name="ObjectShortName">[19]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[18]">
-         <obj_property name="ElementShortName">[18]</obj_property>
-         <obj_property name="ObjectShortName">[18]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[17]">
-         <obj_property name="ElementShortName">[17]</obj_property>
-         <obj_property name="ObjectShortName">[17]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[16]">
-         <obj_property name="ElementShortName">[16]</obj_property>
-         <obj_property name="ObjectShortName">[16]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[15]">
-         <obj_property name="ElementShortName">[15]</obj_property>
-         <obj_property name="ObjectShortName">[15]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[14]">
-         <obj_property name="ElementShortName">[14]</obj_property>
-         <obj_property name="ObjectShortName">[14]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[13]">
-         <obj_property name="ElementShortName">[13]</obj_property>
-         <obj_property name="ObjectShortName">[13]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[12]">
-         <obj_property name="ElementShortName">[12]</obj_property>
-         <obj_property name="ObjectShortName">[12]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[11]">
-         <obj_property name="ElementShortName">[11]</obj_property>
-         <obj_property name="ObjectShortName">[11]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[10]">
-         <obj_property name="ElementShortName">[10]</obj_property>
-         <obj_property name="ObjectShortName">[10]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[9]">
-         <obj_property name="ElementShortName">[9]</obj_property>
-         <obj_property name="ObjectShortName">[9]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[8]">
-         <obj_property name="ElementShortName">[8]</obj_property>
-         <obj_property name="ObjectShortName">[8]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[7]">
-         <obj_property name="ElementShortName">[7]</obj_property>
-         <obj_property name="ObjectShortName">[7]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[6]">
-         <obj_property name="ElementShortName">[6]</obj_property>
-         <obj_property name="ObjectShortName">[6]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[5]">
-         <obj_property name="ElementShortName">[5]</obj_property>
-         <obj_property name="ObjectShortName">[5]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[4]">
-         <obj_property name="ElementShortName">[4]</obj_property>
-         <obj_property name="ObjectShortName">[4]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[3]">
-         <obj_property name="ElementShortName">[3]</obj_property>
-         <obj_property name="ObjectShortName">[3]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[2]">
-         <obj_property name="ElementShortName">[2]</obj_property>
-         <obj_property name="ObjectShortName">[2]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[1]">
-         <obj_property name="ElementShortName">[1]</obj_property>
-         <obj_property name="ObjectShortName">[1]</obj_property>
-      </wvobject>
-      <wvobject type="logic" fp_name="/ecrv32top/riscvcore/memaddress[0]">
-         <obj_property name="ElementShortName">[0]</obj_property>
-         <obj_property name="ObjectShortName">[0]</obj_property>
-      </wvobject>
    </wvobject>
    <wvobject fp_name="divider176" type="divider">
       <obj_property name="label">CPU</obj_property>
@@ -449,6 +313,14 @@
    <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/rval2">
       <obj_property name="ElementShortName">rval2[31:0]</obj_property>
       <obj_property name="ObjectShortName">rval2[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluin1">
+      <obj_property name="ElementShortName">aluin1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluin1[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ecrv32top/riscvcore/aluin2">
+      <obj_property name="ElementShortName">aluin2[31:0]</obj_property>
+      <obj_property name="ObjectShortName">aluin2[31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/ecrv32top/riscvcore/regs/registers">
       <obj_property name="ElementShortName">registers[0:31][31:0]</obj_property>
@@ -694,10 +566,6 @@
       <obj_property name="ElementShortName">videoreadaddress[13:0]</obj_property>
       <obj_property name="ObjectShortName">videoreadaddress[13:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/vramdataout">
-      <obj_property name="ElementShortName">vramdataout[31:0]</obj_property>
-      <obj_property name="ObjectShortName">vramdataout[31:0]</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/ecrv32top/vgaout/cacheaddress">
       <obj_property name="ElementShortName">cacheaddress[5:0]</obj_property>
       <obj_property name="ObjectShortName">cacheaddress[5:0]</obj_property>
@@ -705,10 +573,6 @@
    <wvobject type="logic" fp_name="/ecrv32top/vgaout/cacherow">
       <obj_property name="ElementShortName">cacherow</obj_property>
       <obj_property name="ObjectShortName">cacherow</obj_property>
-   </wvobject>
-   <wvobject type="array" fp_name="/ecrv32top/scanlinecache">
-      <obj_property name="ElementShortName">scanlinecache[0:63][31:0]</obj_property>
-      <obj_property name="ObjectShortName">scanlinecache[0:63][31:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/ecrv32top/vgaout/videobyteselect">
       <obj_property name="ElementShortName">videobyteselect[1:0]</obj_property>

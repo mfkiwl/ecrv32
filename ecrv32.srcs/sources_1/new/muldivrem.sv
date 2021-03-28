@@ -70,8 +70,8 @@ always_ff @(posedge clk) begin
 			end else begin
 				busy <= 1'b1;
 				dbz <= 1'b0;
-				div_R <= x&32'h80000000 ? ((x^32'hFFFFFFFF) + 32'd1)&32'h7FFFFFFF : x; // abs(x)
-				div_D <= y&32'h80000000 ? ((y^32'hFFFFFFFF) + 32'd1)&32'h7FFFFFFF : y; // abs(y)
+				div_R <= x[31] ? ((x^32'hFFFFFFFF) + 32'd1)&32'h7FFFFFFF : x; // abs(x)
+				div_D <= y[31] ? ((y^32'hFFFFFFFF) + 32'd1)&32'h7FFFFFFF : y; // abs(y)
 				signflip <= (x[31]^y[31]);
 				divsigned <= x[31];
 				div_Q <= 32'd0;
@@ -81,7 +81,7 @@ always_ff @(posedge clk) begin
 		end else begin
 			case(div_state)
 				2'b01: begin
-					if((div_R&32'h80000000)) begin // Done dividing when remainder goes negative
+					if(div_R[31]) begin // Done dividing when remainder goes negative
 						div_state <= 2'b10;
 					end else begin
 						prev_R <= div_R;
