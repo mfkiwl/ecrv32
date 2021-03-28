@@ -80,13 +80,16 @@ always_ff @(posedge clk) begin
 			end
 		end else begin
 			case(div_state)
+				2'b00: begin
+					divdone <= 1'b0;
+				end
 				2'b01: begin
 					if(div_R[31]) begin // Done dividing when remainder goes negative
 						div_state <= 2'b10;
 					end else begin
 						prev_R <= div_R;
 						prev_Q <= div_Q;
-						div_R <= div_R + ((div_D^32'hFFFFFFFF)+1); // same as div_R = div_R - div_D
+						div_R <= div_R + ((div_D^32'hFFFFFFFF)+32'd1); // same as div_R = div_R - div_D
 						div_Q <= div_Q + 32'd1; // Increment quotient
 					end
 					divdone <= 1'b0;
@@ -99,7 +102,7 @@ always_ff @(posedge clk) begin
 					div_state <= 2'b00;
 					divdone <= 1'b1;
 				end
-				default: begin
+				2'b11: begin
 					divdone <= 1'b0;
 				end
 			endcase

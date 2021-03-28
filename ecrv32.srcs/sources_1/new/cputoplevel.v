@@ -132,7 +132,7 @@ instructiondecompressor rv32cdecompress(.instr_lowword(instrlo), .instr_highword
 
 // ALU
 wire alustall;
-wire divstart = (cpustate[`CPUFETCH]==1'b1 && icachenotmissed) && (aluop==`ALU_DIV || aluop==`ALU_REM); // High only during FETCH when cache is not missed
+wire divstart = (cpustate[`CPUFETCH]==1'b1 & icachenotmissed) & (aluop==`ALU_DIV | aluop==`ALU_REM); // High only during FETCH when cache is not missed
 //wire fdivstart = (cpustate[CPUFETCH]==1'b1 && icachenotmissed) && (faluop==`ALU_FDIV); // High only during FETCH when cache is not missed
 ALU aluunit(
 	.reset(reset),
