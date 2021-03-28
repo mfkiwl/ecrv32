@@ -80,8 +80,6 @@ wire outfifovalid;
 wire [10:0] fifodatacount;
 wire [10:0] outfifodatacount;
 
-reg [31:0] scanlinecache [0:63];
-
 // Clocks
 CoreClockGen SystemClock(
 	.cpuclock(cpuclock),
@@ -99,13 +97,17 @@ PeripheralClockGen PeripheralClock(
 
 wire clocklocked = clockAlocked & clockBlocked;
 
+// Reset wires
+wire reset_p = reset | (~clocklocked);
+wire reset_n = ~reset & clocklocked;
+
 // System Memory
 SysMemGen SysMem(
 	.addra(memaddress[15:2]),
 	.clka(cpuclock),
 	.dina(writeword),
 	.douta(mem_data),
-	.ena((~reset) & clocklocked),
+	.ena(reset_n),
 	.wea(memaddress[31]==1'b0 ? mem_writeena : 4'b0000) );
 
 
@@ -116,7 +118,7 @@ wire sdtxdatavalid;
 wire [7:0] sdtxdata;
 wire [7:0] sdrcvdata;
 cputoplevel riscvcore(
-	.reset((reset) | (~clocklocked)),
+	.reset(reset_p),
 	.clock(cpuclock),
 	.memaddress(memaddress),
 	.writeword(writeword),
@@ -195,7 +197,7 @@ async_transmitter UART_transmit(
 
 // UART - Output FIFO
 UARTFifoGen UART_out_fifo(
-    .rst((reset) | (~clocklocked)),
+    .rst(reset_p),
     .full(outfifofull),
     .din(uartbyte), // data from CPU
     .wr_en(uartsend), // CPU controls write, high for one clock
@@ -220,7 +222,7 @@ async_receiver UART_receive(
 
 // UART - Input FIFO
 UARTFifoGen UART_in_fifo(
-    .rst((reset) | (~clocklocked)),
+    .rst(reset_p),
     .full(fifofull),
     .din(fifoin),
     .wr_en(fifowe),
@@ -272,18 +274,20 @@ always @(posedge(uartbase)) begin
 	end
 end
 
-// Video wires
+// Video registers and wires
 wire [1:0] videobyteselect;
 wire [13:0] videoreadaddress;
 wire [5:0] cacheaddress;
 wire cacherow;
+reg [7:0] videooutbyte;
+reg [31:0] scanlinecache [0:64]; // Extra dword at the end for when we're outside view
 
 // Video Memory
 VRAMGen VideoMem(
 	.addra(memaddress[15:2]),
 	.clka(cpuclock),
 	.dina(writeword),
-	.ena((~reset) & clocklocked),
+	.ena(reset_n),
 	.wea(memaddress[31]==1'b1 ? mem_writeena : 4'b0000),
 	.addrb(videoreadaddress),
 	.clkb(videoclock),
@@ -292,7 +296,7 @@ VRAMGen VideoMem(
 // VGA output generator
 video vgaout(
 	.clk(videoclock),
-	.reset((reset) | (~clocklocked)),
+	.reset(reset_p),
 	.vga_h_sync(VGA_HS_O),
 	.vga_v_sync(VGA_VS_O),
 	.inDisplayArea(indisplayarea),
@@ -301,8 +305,6 @@ video vgaout(
     .cacherow(cacherow),
 	.videobyteselect(videobyteselect));
 
-// Scanline cache to scan-out conversion
-reg [7:0] videooutbyte;
 always @(posedge(videoclock)) begin
 	if (cacherow) begin
 		scanlinecache[cacheaddress] <= vramdataout;
@@ -331,8 +333,8 @@ assign VGA_G = indisplayarea ? {1'b0, videooutbyte[2:0]} : 4'b0;
 // SD Card controller
 SPI_Master_With_Single_CS SDCardController (
 	// Control/Data Signals
-	.i_Rst_L((~reset) & (clocklocked)),	// FPGA Reset
-	.i_Clk(cpuclock),					// FPGA Clock @100Mhz
+	.i_Rst_L(reset_n),					// FPGA Reset
+	.i_Clk(cpuclock),					// FPGA Clock @140Mhz, but this has only been properly tested with 100Mhz so far
    
 	// TX (MOSI) Signals
 	.i_TX_Count(2'b10),					// Bytes per CS low
