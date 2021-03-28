@@ -1,7 +1,7 @@
 # ecrv32
-A simple RISC-V implementation (model: rv32imc)
+A simple RISC-V implementation (model: rv32im)
 
-Current version, when synthesized/implemented, runs at 120Mhz on an Arty S7-25 FPGA board at 3 clocks per instructions on average.
+Current version, when synthesized/implemented, runs at 140Mhz on an Arty S7-25 FPGA board at 3 clocks per instructions on average.
 
 ![Arty S7-25 With Addon PMODs](artys7.png)
 
