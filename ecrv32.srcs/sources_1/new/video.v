@@ -7,8 +7,6 @@ module video(
     output wire vga_h_sync,
     output wire vga_v_sync,
     output wire inDisplayArea,
-    output wire [9:0] pixelX,
-    output wire [9:0] pixelY,
     output wire [13:0] videoreadaddress,
     output wire [5:0] cacheaddress,
     output wire cacherow,
@@ -62,6 +60,9 @@ module video(
     assign vga_h_sync = ~vga_HS;
     assign vga_v_sync = ~vga_VS;
     assign inDisplayArea = (CounterX >= 64) && (CounterY >= 48) && (CounterX < 576) && (CounterY < 432);	// 512x384 window centered inside 640x480 image
+
+    wire [9:0] pixelX;
+    wire [9:0] pixelY;
 	assign pixelX = (CounterX-10'd64);
 	assign pixelY = (CounterY-10'd48);
 

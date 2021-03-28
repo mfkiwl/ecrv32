@@ -56,7 +56,6 @@ wire [31:0] writeword;
 wire [31:0] mem_data;
 wire [3:0] mem_writeena;
 wire [31:0] vramdataout;
-wire [1:0] videobyteselect;
 wire indisplayarea;
 wire uartsend;
 wire uartbyteavailable;
@@ -80,17 +79,6 @@ wire fifovalid;
 wire outfifovalid;
 wire [10:0] fifodatacount;
 wire [10:0] outfifodatacount;
-wire instructionfault;
-wire executing;
-wire fillingcache;
-reg [3:0] videoR = 1'b0;
-reg [3:0] videoG = 1'b0;
-reg [3:0] videoB = 1'b0;
-wire [9:0] pixelX;
-wire [9:0] pixelY;
-wire [13:0] videoreadaddress;
-wire [5:0] cacheaddress;
-wire cacherow;
 
 reg [31:0] scanlinecache [0:63];
 
@@ -120,17 +108,7 @@ SysMemGen SysMem(
 	.ena((~reset) & clocklocked),
 	.wea(memaddress[31]==1'b0 ? mem_writeena : 4'b0000) );
 
-// Video Memory
-VRAMGen VideoMem(
-	.addra(memaddress[15:2]),
-	.clka(cpuclock),
-	.dina(writeword),
-	.ena((~reset) & clocklocked),
-	.wea(memaddress[31]==1'b1 ? mem_writeena : 4'b0000),
-	.addrb(videoreadaddress),
-	.clkb(videoclock),
-	.doutb(vramdataout) );
-	
+
 // CPU Core
 wire sddatavalid;
 wire sdtxready;
@@ -294,6 +272,23 @@ always @(posedge(uartbase)) begin
 	end
 end
 
+// Video wires
+wire [1:0] videobyteselect;
+wire [13:0] videoreadaddress;
+wire [5:0] cacheaddress;
+wire cacherow;
+
+// Video Memory
+VRAMGen VideoMem(
+	.addra(memaddress[15:2]),
+	.clka(cpuclock),
+	.dina(writeword),
+	.ena((~reset) & clocklocked),
+	.wea(memaddress[31]==1'b1 ? mem_writeena : 4'b0000),
+	.addrb(videoreadaddress),
+	.clkb(videoclock),
+	.doutb(vramdataout) );
+
 // VGA output generator
 video vgaout(
 	.clk(videoclock),
@@ -301,8 +296,6 @@ video vgaout(
 	.vga_h_sync(VGA_HS_O),
 	.vga_v_sync(VGA_VS_O),
 	.inDisplayArea(indisplayarea),
-	.pixelX(pixelX),
-	.pixelY(pixelY),
 	.videoreadaddress(videoreadaddress),
     .cacheaddress(cacheaddress),
     .cacherow(cacherow),
