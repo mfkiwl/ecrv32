@@ -10,9 +10,9 @@ module ecrv32top(
 	input wire CLK12MHZ,
 
 	// VGA pins
-	output reg [3:0] VGA_R,
-	output reg [3:0] VGA_G,
-	output reg [3:0] VGA_B,
+	output wire [3:0] VGA_R,
+	output wire [3:0] VGA_G,
+	output wire [3:0] VGA_B,
 	output wire VGA_HS_O,
 	output wire VGA_VS_O,
 	
@@ -309,34 +309,31 @@ video vgaout(
 	.videobyteselect(videobyteselect));
 
 // Scanline cache to scan-out conversion
+reg [7:0] videooutbyte;
 always @(posedge(videoclock)) begin
 	if (cacherow) begin
 		scanlinecache[cacheaddress] <= vramdataout;
 	end else begin
 		case (videobyteselect)
 			2'b00: begin
-				VGA_B <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][7:6],1'b0} : 4'b0;
-				VGA_R <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][5:3]} : 4'b0;
-				VGA_G <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][2:0]} : 4'b0;
+				videooutbyte <= indisplayarea ? scanlinecache[cacheaddress][7:0] : 8'd0;
 			end
 			2'b01: begin
-				VGA_B <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][15:14],1'b0} : 4'b0;
-				VGA_R <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][13:11]} : 4'b0;
-				VGA_G <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][10:8]} : 4'b0;
+				videooutbyte <= indisplayarea ? scanlinecache[cacheaddress][15:8] : 8'd0;
 			end
 			2'b10: begin
-				VGA_B <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][23:22],1'b0} : 4'b0;
-				VGA_R <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][21:19]} : 4'b0;
-				VGA_G <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][18:16]} : 4'b0;
+				videooutbyte <= indisplayarea ? scanlinecache[cacheaddress][23:16] : 8'd0;
 			end
 			2'b11: begin
-				VGA_B <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][31:30],1'b0} : 4'b0;
-				VGA_R <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][29:27]} : 4'b0;
-				VGA_G <= indisplayarea ? {1'b0,scanlinecache[cacheaddress][26:24]} : 4'b0;
+				videooutbyte <= indisplayarea ? scanlinecache[cacheaddress][31:24] : 8'd0;
 			end
 		endcase
 	end
 end
+
+assign VGA_B = indisplayarea ? {1'b0, videooutbyte[7:6], 1'b0} : 4'b0;
+assign VGA_R = indisplayarea ? {1'b0, videooutbyte[5:3]} : 4'b0;
+assign VGA_G = indisplayarea ? {1'b0, videooutbyte[2:0]} : 4'b0;
 
 // SD Card controller
 SPI_Master_With_Single_CS SDCardController (
@@ -361,10 +358,7 @@ SPI_Master_With_Single_CS SDCardController (
 	.o_SPI_MOSI(mosi),
 	.o_SPI_CS_n(cs_n) );
 
-//assign dat[0] = 1'b1;
-//assign dat[1] = 1'b1;
-
 // SoC status LEDs
-assign led = {reset, sddatavalid, sdtxready, cd};
+assign led = {1'b0, 1'b0, 1'b0, cd};
 
 endmodule
