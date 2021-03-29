@@ -20,7 +20,7 @@ Hardware / Software:
 - SD Card access (with small SDCard library and a simple FAT filesystem access library, memory to access the card mapped outside RAM range)
 - UART access (UART incoming byte count, received byte, send byte addresses mapped outside RAM range)
 - VGA video output at 256x192x8bpp resolution (60Hz, framebuffer address mapped outside RAM range)
-- RISC-V with base integer, mul/div/rem and compressed instruction support
+- RISC-V with base integer, mul/div/rem (compressed instruction support exists but temporarily not working until I$ is fixed)
 - 32x16bits instruction cache
 - No data cache
 - Memory mapped peripheral access (UART/SDCard)
