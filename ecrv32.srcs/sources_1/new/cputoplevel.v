@@ -182,7 +182,7 @@ always @(posedge clock) begin
 		
 			cpustate[`CPUFETCH] : begin
 				if (icachenotmissed) begin // Still in instruction cache?
-					if (alustall) begin
+					if ( alustall | ((opcode == `OPCODE_OP) & (aluop==`ALU_MUL)) ) begin // Skip one cycle for MUL to complete or wait for DIV
 						cpustate[`CPUSTALL] <= 1'b1;
 					end else begin
 						cpustate[`CPUEXEC] <= 1'b1;

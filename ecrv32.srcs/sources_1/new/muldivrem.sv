@@ -18,7 +18,7 @@ always @(*) begin
 	endcase
 end
 
-assign multiplier_result = (func3 == 3'b000) ? result[31:0] : result[63:0];
+assign multiplier_result = (func3 == 3'b000) ? result[31:0] : result[63:32];
 
 endmodule
 
