@@ -157,7 +157,7 @@ always @(posedge clock) begin
 		//memaddress <= 32'd0;
 		mem_writeena <= 4'b0000;
 		//writeword <= 32'd0;
-		//data <= 32'd0;
+		data <= 32'd0;
 		
 		registerWriteEnable <= 1'b0;
 
